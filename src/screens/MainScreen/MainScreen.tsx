@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SCREENS, TRootStackParamList } from "@/router/types";
 import { AppDispatch, RootState } from "@/store/store";
 import { clearAuth } from "@/store/slices/authSlice";
-import { clearEntries } from "@/store/slices/entriesSlice";
+import { clearEntries, deleteEntry } from "@/store/slices/entriesSlice";
 
 export const MainScreen = ({
   navigation,
@@ -34,6 +34,11 @@ export const MainScreen = ({
           <>
             <Text>{item.title}</Text>
             <Text>{item.body}</Text>
+            <Button
+              title="Edit"
+              onPress={() => navigation.navigate(SCREENS.AddEdit, { entryId: item.id })}
+            />
+            <Button title="Delete" onPress={() => dispatch(deleteEntry(item.id))} />
           </>
         )}
       />
