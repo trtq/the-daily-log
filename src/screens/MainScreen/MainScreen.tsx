@@ -4,8 +4,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useDispatch, useSelector } from "react-redux";
 import { SCREENS, TRootStackParamList } from "@/router/types";
 import { AppDispatch, RootState } from "@/store/store";
-import { clearAuth } from "@/store/slices/authSlice";
-import { clearEntries, deleteEntry } from "@/store/slices/entriesSlice";
+import { deleteEntry } from "@/store/slices/entriesSlice";
+import { supabase } from "@/utils/supabase/client";
 
 export const MainScreen = ({
   navigation,
@@ -13,9 +13,9 @@ export const MainScreen = ({
   const dispatch = useDispatch<AppDispatch>();
   const entries = useSelector((state: RootState) => state.entries.entries);
 
-  const handleLogout = () => {
-    dispatch(clearEntries());
-    dispatch(clearAuth());
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    // clearAuth + clearEntries are handled by onAuthStateChange SIGNED_OUT in DbWrapper
   };
 
   return (
@@ -36,9 +36,14 @@ export const MainScreen = ({
             <Text>{item.body}</Text>
             <Button
               title="Edit"
-              onPress={() => navigation.navigate(SCREENS.AddEdit, { entryId: item.id })}
+              onPress={() =>
+                navigation.navigate(SCREENS.AddEdit, { entryId: item.id })
+              }
             />
-            <Button title="Delete" onPress={() => dispatch(deleteEntry(item.id))} />
+            <Button
+              title="Delete"
+              onPress={() => dispatch(deleteEntry(item.id))}
+            />
           </>
         )}
       />

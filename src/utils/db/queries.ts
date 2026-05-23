@@ -3,7 +3,9 @@ import { TEntry } from "./types";
 
 const db = SQLite.openDatabaseSync("daily-log.db");
 
-type TEntryRow = Omit<TEntry, "pendingAction"> & { pendingAction: string | null };
+type TEntryRow = Omit<TEntry, "pendingAction"> & {
+  pendingAction: string | null;
+};
 
 // casts pendingAction from string | null (SQLite) to the union type TEntry expects
 const rowToEntry = (row: TEntryRow): TEntry => ({
@@ -51,7 +53,15 @@ export const insertEntry = async (entry: TEntry): Promise<void> => {
   await db.runAsync(
     `INSERT INTO entries (id, title, body, createdAt, updatedAt, deletedAt, pendingAction)
      VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [entry.id, entry.title, entry.body, entry.createdAt, entry.updatedAt, entry.deletedAt, entry.pendingAction],
+    [
+      entry.id,
+      entry.title,
+      entry.body,
+      entry.createdAt,
+      entry.updatedAt,
+      entry.deletedAt,
+      entry.pendingAction,
+    ],
   );
 };
 
@@ -75,10 +85,9 @@ export const markForDeletion = async (id: string): Promise<void> => {
 };
 
 export const clearPendingAction = async (id: string): Promise<void> => {
-  await db.runAsync(
-    `UPDATE entries SET pendingAction = NULL WHERE id = ?`,
-    [id],
-  );
+  await db.runAsync(`UPDATE entries SET pendingAction = NULL WHERE id = ?`, [
+    id,
+  ]);
 };
 
 // for periodic cleanup of old soft-deleted entries after sync confirms remote deletion
@@ -103,6 +112,14 @@ export const upsertEntry = async (entry: TEntry): Promise<void> => {
        updatedAt = excluded.updatedAt,
        deletedAt = excluded.deletedAt,
        pendingAction = excluded.pendingAction`,
-    [entry.id, entry.title, entry.body, entry.createdAt, entry.updatedAt, entry.deletedAt, entry.pendingAction],
+    [
+      entry.id,
+      entry.title,
+      entry.body,
+      entry.createdAt,
+      entry.updatedAt,
+      entry.deletedAt,
+      entry.pendingAction,
+    ],
   );
 };

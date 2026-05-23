@@ -1,7 +1,8 @@
-import { registerRootComponent } from 'expo';
-import * as SplashScreen from 'expo-splash-screen';
+import "react-native-get-random-values";
+import { registerRootComponent } from "expo";
+import * as SplashScreen from "expo-splash-screen";
 
-import App from './App';
+import App from "./App";
 
 SplashScreen.preventAutoHideAsync();
 

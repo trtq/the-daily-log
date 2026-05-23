@@ -1,25 +1,41 @@
-import { Button, Text } from "react-native";
+import { useState } from "react";
+import { Button, Text, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useDispatch } from "react-redux";
 import { SCREENS, TRootStackParamList } from "@/router/types";
-import { AppDispatch } from "@/store/store";
-import { setAuth } from "@/store/slices/authSlice";
-import { loadEntries } from "@/store/slices/entriesSlice";
+import { supabase } from "@/utils/supabase/client";
 
 export const SignUpScreen = ({
   navigation,
 }: NativeStackScreenProps<TRootStackParamList, SCREENS.SignUp>) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSignUp = () => {
-    dispatch(setAuth({ token: "placeholder-token", userId: "placeholder-user-id" }));
-    dispatch(loadEntries());
+  const handleSignUp = async () => {
+    const { error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      console.error("Sign up failed:", error.message);
+    }
+    // setAuth is handled by onAuthStateChange in DbWrapper
   };
 
   return (
     <SafeAreaView>
       <Text>Sign Up</Text>
+      <TextInput
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
+        autoCapitalize="none"
+        style={{ borderWidth: 1 }}
+      />
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Password"
+        secureTextEntry
+        style={{ borderWidth: 1 }}
+      />
       <Button title="Submit (sign up)" onPress={handleSignUp} />
       <Button title="Back to Login" onPress={() => navigation.goBack()} />
     </SafeAreaView>
