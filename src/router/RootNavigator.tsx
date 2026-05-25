@@ -11,11 +11,13 @@ import { InfoScreen } from "@/screens/InfoScreen/InfoScreen";
 const Stack = createNativeStackNavigator<TRootStackParamList>();
 
 export const RootNavigator = () => {
-  const token = useSelector((state: RootState) => state.auth.token);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated,
+  );
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {token ? (
+      {isAuthenticated ? (
         <Stack.Group screenOptions={{ animationTypeForReplace: "push" }}>
           <Stack.Screen name={SCREENS.Main} component={MainScreen} />
           <Stack.Screen name={SCREENS.AddEdit} component={AddEditScreen} />

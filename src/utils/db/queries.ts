@@ -35,12 +35,6 @@ export const getAllEntries = async (): Promise<TEntry[]> => {
   return rows.map(rowToEntry);
 };
 
-// returns all entries including deleted, used by sync layer
-export const getAllEntriesForSync = async (): Promise<TEntry[]> => {
-  const rows = await db.getAllAsync<TEntryRow>(`SELECT * FROM entries`);
-  return rows.map(rowToEntry);
-};
-
 export const getEntryById = async (id: string): Promise<TEntry | null> => {
   const row = await db.getFirstAsync<TEntryRow>(
     `SELECT * FROM entries WHERE id = ?`,
@@ -78,9 +72,11 @@ export const updateEntry = async (
 };
 
 export const markForDeletion = async (id: string): Promise<void> => {
+  const now = Date.now();
   await db.runAsync(
-    `UPDATE entries SET deletedAt = ?, pendingAction = 'delete' WHERE id = ?`,
-    [Date.now(), id],
+    // updatedAt is also bumped so the deletion timestamp participates in last-write-wins comparison
+    `UPDATE entries SET deletedAt = ?, updatedAt = ?, pendingAction = 'delete' WHERE id = ?`,
+    [now, now, id],
   );
 };
 
@@ -90,9 +86,13 @@ export const clearPendingAction = async (id: string): Promise<void> => {
   ]);
 };
 
-// for periodic cleanup of old soft-deleted entries after sync confirms remote deletion
 export const hardDeleteEntry = async (id: string): Promise<void> => {
   await db.runAsync(`DELETE FROM entries WHERE id = ?`, [id]);
+};
+
+// wipes all local entries on logout so the next user starts with a clean slate
+export const deleteAllEntries = async (): Promise<void> => {
+  await db.runAsync(`DELETE FROM entries`);
 };
 
 export const getPendingEntries = async (): Promise<TEntry[]> => {
