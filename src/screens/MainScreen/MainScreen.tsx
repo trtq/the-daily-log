@@ -1,13 +1,29 @@
-import { Button, FlatList, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
+import { Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useDispatch, useSelector } from "react-redux";
+import Animated, { LinearTransition } from "react-native-reanimated";
 import { SCREENS, TRootStackParamList } from "@/router/types";
 import { AppDispatch, RootState } from "@/store/store";
 import { deleteEntry } from "@/store/slices/entriesSlice";
 import { runSync } from "@/store/slices/syncSlice";
 import { supabase } from "@/utils/supabase/client";
+import { getPendingEntries } from "@/utils/db/queries";
 import { formatTimeAgo } from "@/utils/formatTimeAgo";
+import { EntryRow } from "@/components/EntryRow/EntryRow";
+import { HeaderMenu } from "@/components/HeaderMenu/HeaderMenu";
+import {
+  Screen,
+  Header,
+  HeaderButtons,
+  SyncStatus,
+  AddButton,
+  AddIcon,
+  OptionsButton,
+  OptionsIcon,
+  EmptyState,
+  EmptyStateText,
+} from "./layouts";
 
 export const MainScreen = ({
   navigation,
@@ -16,51 +32,91 @@ export const MainScreen = ({
   const entries = useSelector((state: RootState) => state.entries.entries);
   const isSyncing = useSelector((state: RootState) => state.sync.isSyncing);
   const lastSynced = useSelector((state: RootState) => state.sync.lastSynced);
-  const syncError = useSelector((state: RootState) => state.sync.error);
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    // clearAuth + clearEntries are handled by onAuthStateChange SIGNED_OUT in DbWrapper
+    const pending = await getPendingEntries();
+    if (pending.length > 0) {
+      Alert.alert(
+        "Unsynced entries",
+        "You have entries that haven't synced to the cloud yet. Log out anyway?",
+        [
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Log Out",
+            style: "destructive",
+            onPress: () => supabase.auth.signOut(),
+          },
+        ],
+      );
+    } else {
+      supabase.auth.signOut();
+    }
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Text>The Daily Log</Text>
-      {isSyncing && <Text>Syncing...</Text>}
-      {!isSyncing && syncError && <Text>Sync error: {syncError}</Text>}
-      {!isSyncing && !syncError && lastSynced && (
-        <Text>Last synced {formatTimeAgo(lastSynced)}</Text>
-      )}
-      <Button
-        title="Add Entry"
-        onPress={() => navigation.navigate(SCREENS.AddEdit, {})}
-      />
-      <Button title="Info" onPress={() => navigation.navigate(SCREENS.Info)} />
-      <Button title="Log Out" onPress={handleLogout} />
-      <FlatList
+    <Screen>
+      <Header>
+        <SyncStatus>
+          {isSyncing
+            ? "syncing…"
+            : lastSynced
+              ? `synced ${formatTimeAgo(lastSynced)}`
+              : ""}
+        </SyncStatus>
+        <HeaderButtons>
+          <OptionsButton onPress={() => setMenuOpen(true)}>
+            <OptionsIcon />
+          </OptionsButton>
+          <AddButton onPress={() => navigation.navigate(SCREENS.AddEdit, {})}>
+            <AddIcon />
+          </AddButton>
+        </HeaderButtons>
+      </Header>
+
+      <Animated.FlatList
         data={entries}
         keyExtractor={(item) => item.id}
+        itemLayoutAnimation={LinearTransition}
+        contentContainerStyle={{ flexGrow: 1 }}
+        ListEmptyComponent={
+          <EmptyState>
+            <EmptyStateText>Nothing filed yet.</EmptyStateText>
+          </EmptyState>
+        }
         refreshing={isSyncing}
         onRefresh={() => {
           if (!isSyncing) dispatch(runSync());
         }}
         renderItem={({ item }) => (
-          <>
-            <Text>{item.title}</Text>
-            <Text>{item.body}</Text>
-            <Button
-              title="Edit"
-              onPress={() =>
-                navigation.navigate(SCREENS.AddEdit, { entryId: item.id })
-              }
-            />
-            <Button
-              title="Delete"
-              onPress={() => dispatch(deleteEntry(item.id))}
-            />
-          </>
+          <EntryRow
+            entry={item}
+            onPress={() =>
+              navigation.navigate(SCREENS.AddEdit, { entryId: item.id })
+            }
+            onDelete={() => dispatch(deleteEntry(item.id))}
+          />
         )}
       />
-    </SafeAreaView>
+
+      <HeaderMenu
+        visible={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        options={[
+          {
+            iconName: "information-circle-outline",
+            label: "Info",
+            onPress: () => navigation.navigate(SCREENS.Info),
+          },
+          {
+            iconName: "log-out-outline",
+            label: "Log Out",
+            onPress: handleLogout,
+            danger: true,
+          },
+        ]}
+      />
+    </Screen>
   );
 };
