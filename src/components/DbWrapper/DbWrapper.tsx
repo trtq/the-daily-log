@@ -1,6 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
+import {
+  useFonts,
+  PlayfairDisplay_900Black,
+} from "@expo-google-fonts/playfair-display";
+import { AbrilFatface_400Regular } from "@expo-google-fonts/abril-fatface";
+import {
+  LibreBaskerville_400Regular,
+  LibreBaskerville_400Regular_Italic,
+  LibreBaskerville_700Bold,
+} from "@expo-google-fonts/libre-baskerville";
 import { initDb, deleteAllEntries } from "@/utils/db/queries";
 import { loadEntries, clearEntries } from "@/store/slices/entriesSlice";
 import { setAuthenticated, clearAuth } from "@/store/slices/authSlice";
@@ -9,6 +19,13 @@ import { supabase } from "@/utils/supabase/client";
 import type { AppDispatch } from "@/store/store";
 
 export const DbWrapper = ({ children }: { children: React.ReactNode }) => {
+  const [fontsLoaded] = useFonts({
+    PlayfairDisplay_900Black,
+    AbrilFatface_400Regular,
+    LibreBaskerville_400Regular,
+    LibreBaskerville_400Regular_Italic,
+    LibreBaskerville_700Bold,
+  });
   const [dbReady, setDbReady] = useState(false);
   const [authReady, setAuthReady] = useState(false);
   // tracks whether INITIAL_SESSION fired with an active session,
@@ -52,16 +69,16 @@ export const DbWrapper = ({ children }: { children: React.ReactNode }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (dbReady && authReady) {
+    if (dbReady && authReady && fontsLoaded) {
       SplashScreen.hideAsync();
       // app restarted with an existing session — safe to sync now that DB is ready
       if (initialSessionHadSession.current) {
         dispatch(runSync());
       }
     }
-  }, [dbReady, authReady, dispatch]);
+  }, [dbReady, authReady, fontsLoaded, dispatch]);
 
-  if (!dbReady || !authReady) return null;
+  if (!dbReady || !authReady || !fontsLoaded) return null;
 
   return children;
 };
