@@ -55,7 +55,8 @@ export const editEntry = createAsyncThunk(
     await updateEntryInDb({ id, title, body, updatedAt });
     // read back to get the full entry (createdAt etc.) and the pendingAction SQLite set
     const entry = await getEntryById(id);
-    let pendingAction: TEntry["pendingAction"] = entry?.pendingAction ?? "update";
+    let pendingAction: TEntry["pendingAction"] =
+      entry?.pendingAction ?? "update";
     try {
       if (entry) {
         await upsertRemoteEntry(entry);

@@ -1,11 +1,33 @@
-import { useState } from "react";
-import { Button, Text, TextInput } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useRef, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useDispatch, useSelector } from "react-redux";
 import { SCREENS, TRootStackParamList } from "@/router/types";
 import { AppDispatch, RootState } from "@/store/store";
 import { createEntry, editEntry } from "@/store/slices/entriesSlice";
+import { BackButton } from "@/components/BackButton/BackButton";
+import {
+  Screen,
+  KeyboardContainer,
+  Header,
+  DateLine,
+  ThickRule,
+  TitleInput,
+  BodyDivider,
+  BodyInput,
+  BottomBar,
+  SaveButton,
+  SaveButtonText,
+} from "./layouts";
+
+const formatDate = (timestamp: number) =>
+  new Date(timestamp)
+    .toLocaleDateString("en-US", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
+    .toUpperCase();
 
 export const AddEditScreen = ({
   navigation,
@@ -20,8 +42,11 @@ export const AddEditScreen = ({
 
   const [title, setTitle] = useState(existing?.title ?? "");
   const [body, setBody] = useState(existing?.body ?? "");
+  const [saving, setSaving] = useState(false);
+  const dateRef = useRef(Date.now());
 
   const handleSave = async () => {
+    setSaving(true);
     try {
       if (entryId) {
         await dispatch(editEntry({ id: entryId, title, body })).unwrap();
@@ -29,29 +54,37 @@ export const AddEditScreen = ({
         await dispatch(createEntry({ title, body })).unwrap();
       }
       navigation.goBack();
-    } catch (e: any) {
-      console.error("save failed:", e?.message, e?.code, String(e));
+    } catch {
+      setSaving(false);
     }
   };
 
   return (
-    <SafeAreaView>
-      <Text>{entryId ? "Edit Entry" : "New Entry"}</Text>
-      <TextInput
-        value={title}
-        onChangeText={setTitle}
-        placeholder="Title"
-        style={{ borderWidth: 1 }}
-      />
-      <TextInput
-        value={body}
-        onChangeText={setBody}
-        placeholder="Body"
-        multiline
-        style={{ borderWidth: 1 }}
-      />
-      <Button title="Save" onPress={handleSave} />
-      <Button title="Back" onPress={() => navigation.goBack()} />
-    </SafeAreaView>
+    <Screen>
+      <KeyboardContainer>
+        <Header>
+          <BackButton onPress={() => navigation.goBack()} />
+          <DateLine>
+            {formatDate(existing?.createdAt ?? dateRef.current)}
+          </DateLine>
+        </Header>
+        <ThickRule />
+        <TitleInput value={title} onChangeText={setTitle} placeholder="Title" />
+        <BodyDivider />
+        <BodyInput
+          value={body}
+          onChangeText={setBody}
+          placeholder="Write here..."
+        />
+        <BottomBar>
+          <SaveButton
+            onPress={handleSave}
+            disabled={saving || (!title.trim() && !body.trim())}
+          >
+            <SaveButtonText>{saving ? "Saving…" : "Save"}</SaveButtonText>
+          </SaveButton>
+        </BottomBar>
+      </KeyboardContainer>
+    </Screen>
   );
 };
