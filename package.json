@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "jest"
   },
   "dependencies": {
     "@expo-google-fonts/abril-fatface": "^0.4.1",
@@ -26,6 +27,7 @@
     "expo-splash-screen": "~55.0.21",
     "expo-sqlite": "~55.0.16",
     "expo-status-bar": "~55.0.6",
+    "jest-expo": "~55.0.18",
     "react": "19.2.0",
     "react-native": "0.83.6",
     "react-native-gesture-handler": "~2.30.0",
@@ -39,14 +41,27 @@
     "styled-components": "^6.4.2"
   },
   "devDependencies": {
+    "@testing-library/react-native": "^13.3.3",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.2.2",
     "babel-plugin-module-resolver": "^5.0.3",
     "eslint": "^9.39.4",
     "eslint-config-expo": "^56.0.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^30.4.2",
     "prettier": "^3.8.3",
     "typescript": "~5.9.2"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "^@assets/(.*)$": "<rootDir>/assets/$1"
+    }
   },
   "private": true
 }
