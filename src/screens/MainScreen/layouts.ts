@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 import { vs } from "react-native-size-matters";
 
@@ -60,6 +61,10 @@ export const OptionsIcon = styled(Ionicons).attrs(() => ({
 }))`
   line-height: ${vs(13)}px;
 `;
+
+export const EntryList = styled(Animated.FlatList).attrs(() => ({
+  contentContainerStyle: { flexGrow: 1 },
+}))``;
 
 export const EmptyState = styled.View`
   flex: 1;

@@ -45,14 +45,14 @@ export const MenuItemLabel = styled.Text`
   font-family: LibreBaskerville_400Regular;
   font-size: ${vs(12)}px;
   color: #1a1008;
-  letter-spacing: 0.3px;
+  letter-spacing: ${vs(0.3)}px;
 `;
 
 export const MenuItemLabelDanger = styled.Text`
   font-family: LibreBaskerville_400Regular;
   font-size: ${vs(12)}px;
   color: #8b2020;
-  letter-spacing: 0.3px;
+  letter-spacing: ${vs(0.3)}px;
 `;
 
 // size is fixed; name and color are passed as props by the component

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useDispatch, useSelector } from "react-redux";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import { LinearTransition } from "react-native-reanimated";
 import { SCREENS, TRootStackParamList } from "@/router/types";
 import { AppDispatch, RootState } from "@/store/store";
 import { deleteEntry } from "@/store/slices/entriesSlice";
@@ -21,6 +21,7 @@ import {
   AddIcon,
   OptionsButton,
   OptionsIcon,
+  EntryList,
   EmptyState,
   EmptyStateText,
 } from "./layouts";
@@ -75,11 +76,10 @@ export const MainScreen = ({
         </HeaderButtons>
       </Header>
 
-      <Animated.FlatList
+      <EntryList
         data={entries}
         keyExtractor={(item) => item.id}
         itemLayoutAnimation={LinearTransition}
-        contentContainerStyle={{ flexGrow: 1 }}
         ListEmptyComponent={
           <EmptyState>
             <EmptyStateText>Nothing filed yet.</EmptyStateText>
