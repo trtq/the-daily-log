@@ -43,7 +43,7 @@ export const HeaderMenu = ({ visible, onClose, options }: TProps) => (
             >
               <MenuIcon
                 name={option.iconName}
-                color={option.danger ? "#8b2020" : "#1a1008"}
+                danger={option.danger}
               />
               {option.danger ? (
                 <MenuItemLabelDanger>{option.label}</MenuItemLabelDanger>

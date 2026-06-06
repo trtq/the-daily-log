@@ -1,12 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Animated from "react-native-reanimated";
+import { type ReactElement } from "react";
+import Animated, {
+  type FlatListPropsWithLayout,
+} from "react-native-reanimated";
 import styled from "styled-components/native";
 import { vs } from "react-native-size-matters";
+import type { TEntry } from "@/utils/db/types";
 
 export const Screen = styled(SafeAreaView)`
   flex: 1;
-  background-color: #f4efe6;
+  background-color: ${(props) => props.theme.bg};
 `;
 
 export const Header = styled.View`
@@ -21,7 +25,7 @@ export const Header = styled.View`
 export const SyncStatus = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
   font-size: ${vs(10)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   opacity: 0.4;
 `;
 
@@ -38,7 +42,7 @@ const CircleButton = styled.TouchableOpacity.attrs(() => ({
   height: ${vs(22)}px;
   border-radius: ${vs(11)}px;
   border-width: ${vs(2)}px;
-  border-color: rgba(140, 133, 126, 0.9);
+  border-color: ${(props) => props.theme.muted};
   justify-content: center;
   align-items: center;
 `;
@@ -46,23 +50,25 @@ const CircleButton = styled.TouchableOpacity.attrs(() => ({
 export const AddButton = CircleButton;
 export const OptionsButton = CircleButton;
 
-export const AddIcon = styled(Ionicons).attrs(() => ({
+export const AddIcon = styled(Ionicons).attrs((props) => ({
   name: "add",
   size: vs(16),
-  color: "rgba(140, 133, 126, 0.9)",
+  color: props.theme.muted,
 }))`
   line-height: ${vs(16)}px;
 `;
 
-export const OptionsIcon = styled(Ionicons).attrs(() => ({
+export const OptionsIcon = styled(Ionicons).attrs((props) => ({
   name: "ellipsis-horizontal",
   size: vs(13),
-  color: "rgba(140, 133, 126, 0.9)",
+  color: props.theme.muted,
 }))`
   line-height: ${vs(13)}px;
 `;
 
-export const EntryList = styled(Animated.FlatList).attrs(() => ({
+export const EntryList = styled(
+  Animated.FlatList as (props: FlatListPropsWithLayout<TEntry>) => ReactElement,
+).attrs(() => ({
   contentContainerStyle: { flexGrow: 1 },
 }))``;
 
@@ -75,6 +81,6 @@ export const EmptyState = styled.View`
 export const EmptyStateText = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
   font-size: ${vs(13)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   opacity: 0.4;
 `;

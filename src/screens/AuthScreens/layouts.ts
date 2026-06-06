@@ -5,7 +5,7 @@ import { vs } from "react-native-size-matters";
 
 export const Screen = styled(SafeAreaView)`
   flex: 1;
-  background-color: #f4efe6;
+  background-color: ${(props) => props.theme.bg};
 `;
 
 export const KeyboardContainer = styled(KeyboardAvoidingView).attrs(() => ({
@@ -27,7 +27,7 @@ export const LogoWrapper = styled.View`
 
 export const ThickRule = styled.View`
   height: ${vs(3)}px;
-  background-color: #1a1008;
+  background-color: ${(props) => props.theme.ink};
   margin-left: ${vs(18)}px;
   margin-right: ${vs(18)}px;
 `;
@@ -39,7 +39,7 @@ export const Section = styled.View`
 export const Kicker = styled.Text`
   font-family: LibreBaskerville_700Bold;
   font-size: ${vs(7)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   letter-spacing: ${vs(2)}px;
   text-transform: uppercase;
   margin-bottom: ${vs(4)}px;
@@ -48,7 +48,7 @@ export const Kicker = styled.Text`
 export const Headline = styled.Text`
   font-family: PlayfairDisplay_900Black;
   font-size: ${vs(23)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   margin-bottom: ${vs(18)}px;
 `;
 
@@ -59,37 +59,39 @@ export const InputGroup = styled.View`
 export const InputLabel = styled.Text`
   font-family: LibreBaskerville_700Bold;
   font-size: ${vs(7)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   letter-spacing: ${vs(2)}px;
   text-transform: uppercase;
   margin-bottom: ${vs(5)}px;
 `;
 
-export const EmailInput = styled.TextInput.attrs(() => ({
+export const EmailInput = styled.TextInput.attrs((props) => ({
   autoCapitalize: "none",
   keyboardType: "email-address",
   autoCorrect: false,
-  placeholderTextColor: "#1a100866",
+  placeholderTextColor: props.theme.placeholder,
 }))<{ hasError?: boolean }>`
   font-family: LibreBaskerville_400Regular;
   font-size: ${vs(13)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   border-width: 1px;
-  border-color: ${({ hasError }) => (hasError ? "#b33a3a" : "#1a1008")};
+  border-color: ${({ hasError, theme }) =>
+    hasError ? theme.accentError : theme.ink};
   padding: ${vs(10)}px ${vs(11)}px;
 `;
 
-export const PasswordInput = styled.TextInput.attrs(() => ({
+export const PasswordInput = styled.TextInput.attrs((props) => ({
   secureTextEntry: true,
   autoCapitalize: "none",
   autoCorrect: false,
-  placeholderTextColor: "#1a100866",
+  placeholderTextColor: props.theme.placeholder,
 }))<{ hasError?: boolean }>`
   font-family: LibreBaskerville_400Regular;
   font-size: ${vs(13)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   border-width: 1px;
-  border-color: ${({ hasError }) => (hasError ? "#b33a3a" : "#1a1008")};
+  border-color: ${({ hasError, theme }) =>
+    hasError ? theme.accentError : theme.ink};
   padding: ${vs(10)}px ${vs(11)}px;
 `;
 
@@ -98,7 +100,7 @@ export const InputError = styled.Text`
   padding-top: ${vs(2)}px;
   font-family: LibreBaskerville_400Regular_Italic;
   font-size: ${vs(9)}px;
-  color: #b33a3a;
+  color: ${(props) => props.theme.accentError};
 `;
 
 export const SubmitButton = styled.TouchableOpacity.attrs<{
@@ -106,7 +108,8 @@ export const SubmitButton = styled.TouchableOpacity.attrs<{
 }>(({ disabled }) => ({
   activeOpacity: disabled ? 1 : 0.7,
 }))<{ disabled?: boolean }>`
-  background-color: ${({ disabled }) => (disabled ? "#7a6a5a" : "#1a1008")};
+  background-color: ${({ disabled, theme }) =>
+    disabled ? theme.btnBgDisabled : theme.btnBg};
   padding: ${vs(13)}px;
   align-items: center;
   margin-bottom: ${vs(14)}px;
@@ -115,7 +118,7 @@ export const SubmitButton = styled.TouchableOpacity.attrs<{
 export const SubmitButtonText = styled.Text`
   font-family: LibreBaskerville_700Bold;
   font-size: ${vs(10)}px;
-  color: #f4efe6;
+  color: ${(props) => props.theme.btnText};
   letter-spacing: ${vs(2)}px;
   text-transform: uppercase;
 `;
@@ -125,7 +128,7 @@ export const AuthError = styled.Text`
   padding-top: ${vs(3)}px;
   font-family: LibreBaskerville_400Regular_Italic;
   font-size: ${vs(10)}px;
-  color: #b33a3a;
+  color: ${(props) => props.theme.accentError};
 `;
 
 export const NavRow = styled.View`
@@ -138,7 +141,7 @@ export const NavRow = styled.View`
 export const NavText = styled.Text`
   font-family: LibreBaskerville_400Regular;
   font-size: ${vs(10)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
 `;
 
 export const NavLink = styled.TouchableOpacity.attrs(() => ({
@@ -148,6 +151,6 @@ export const NavLink = styled.TouchableOpacity.attrs(() => ({
 export const NavLinkText = styled.Text`
   font-family: LibreBaskerville_700Bold;
   font-size: ${vs(10)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   text-decoration-line: underline;
 `;

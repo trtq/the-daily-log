@@ -11,15 +11,15 @@ export const BackButtonContainer = styled.TouchableOpacity.attrs(() => ({
   padding: ${s(8)}px ${s(14)}px;
 `;
 
-export const BackButtonIcon = styled(Ionicons).attrs(() => ({
+export const BackButtonIcon = styled(Ionicons).attrs((props) => ({
   name: "chevron-back",
   size: s(14),
-  color: "#1a1008",
+  color: props.theme.ink,
 }))``;
 
 export const BackButtonLabel = styled.Text`
   font-family: LibreBaskerville_700Bold;
   font-size: ${s(10)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   letter-spacing: ${s(1.5)}px;
 `;

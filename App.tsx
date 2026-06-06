@@ -5,17 +5,20 @@ import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import { RootNavigator } from "@/router/RootNavigator";
 import { DbWrapper } from "@/components/DbWrapper/DbWrapper";
+import { ThemeWrapper } from "@/components/ThemeWrapper/ThemeWrapper";
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
         <SafeAreaProvider>
-          <DbWrapper>
-            <NavigationContainer>
-              <RootNavigator />
-            </NavigationContainer>
-          </DbWrapper>
+          <ThemeWrapper>
+            <DbWrapper>
+              <NavigationContainer>
+                <RootNavigator />
+              </NavigationContainer>
+            </DbWrapper>
+          </ThemeWrapper>
         </SafeAreaProvider>
       </Provider>
     </GestureHandlerRootView>

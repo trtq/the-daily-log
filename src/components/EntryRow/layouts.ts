@@ -15,20 +15,20 @@ export const DeleteZone = styled(Animated.View)`
   top: 0;
   bottom: 0;
   width: ${SWIPE_DELETE_WIDTH}px;
-  background-color: #8b2020;
+  background-color: ${(props) => props.theme.accent};
   justify-content: center;
   align-items: center;
 `;
 
-export const DeleteIcon = styled(FontAwesome).attrs(() => ({
+export const DeleteIcon = styled(FontAwesome).attrs((props) => ({
   name: "trash",
   size: s(22),
-  color: "#f4efe6",
+  color: props.theme.accentFg,
 }))``;
 
 export const RowRule = styled.View`
   height: 1px;
-  background-color: #1a1008;
+  background-color: ${(props) => props.theme.ink};
   opacity: 0.18;
   margin-left: ${s(20)}px;
   margin-right: ${s(20)}px;
@@ -44,7 +44,7 @@ export const RowContent = styled.View`
 export const RowKicker = styled.Text`
   font-family: LibreBaskerville_700Bold;
   font-size: ${s(10)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   opacity: 0.45;
   letter-spacing: ${s(1.5)}px;
   text-transform: uppercase;
@@ -54,7 +54,7 @@ export const RowKicker = styled.Text`
 export const RowTitle = styled.Text`
   font-family: PlayfairDisplay_900Black;
   font-size: ${s(20)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   line-height: ${s(27)}px;
   margin-bottom: ${s(5)}px;
 `;
@@ -62,7 +62,7 @@ export const RowTitle = styled.Text`
 export const RowExcerpt = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
   font-size: ${s(13)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   opacity: 0.55;
   line-height: ${s(20)}px;
 `;

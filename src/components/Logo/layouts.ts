@@ -11,13 +11,13 @@ export const LogoOuter = styled.View`
 export const LogoThinRule = styled.View`
   width: 100%;
   height: 1px;
-  background-color: #1a1008;
+  background-color: ${(props) => props.theme.ink};
 `;
 
 export const LogoThickRule = styled.View`
   width: 100%;
   height: ${s(3)}px;
-  background-color: #1a1008;
+  background-color: ${(props) => props.theme.ink};
 `;
 
 export const LogoInner = styled.View`
@@ -34,7 +34,7 @@ export const LogoText = styled.Text.attrs(() => ({
   numberOfLines: 1,
 }))`
   font-family: AbrilFatface_400Regular;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   font-size: 200px;
   text-align: center;
   width: 100%;
@@ -47,7 +47,7 @@ export const LogoSubtitle = styled.Text.attrs(() => ({
 }))`
   font-family: LibreBaskerville_400Regular_Italic;
   font-size: ${s(9)}px;
-  color: #1a1008;
+  color: ${(props) => props.theme.ink};
   letter-spacing: ${s(1.5)}px;
   text-align: center;
   width: 100%;

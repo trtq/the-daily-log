@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useDispatch, useSelector } from "react-redux";
 import { LinearTransition } from "react-native-reanimated";
+import { useTheme } from "styled-components/native";
+import { ThemeContext } from "@/components/ThemeWrapper/ThemeWrapper";
 import { SCREENS, TRootStackParamList } from "@/router/types";
 import { AppDispatch, RootState } from "@/store/store";
 import { deleteEntry } from "@/store/slices/entriesSlice";
@@ -33,6 +35,8 @@ export const MainScreen = ({
   const entries = useSelector((state: RootState) => state.entries.entries);
   const isSyncing = useSelector((state: RootState) => state.sync.isSyncing);
   const lastSynced = useSelector((state: RootState) => state.sync.lastSynced);
+  const toggleTheme = use(ThemeContext);
+  const { themeIcon } = useTheme();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -108,6 +112,11 @@ export const MainScreen = ({
             iconName: "information-circle-outline",
             label: "Info",
             onPress: () => navigation.navigate(SCREENS.Info),
+          },
+          {
+            iconName: themeIcon,
+            label: themeIcon === "moon-outline" ? "Dark Mode" : "Light Mode",
+            onPress: toggleTheme,
           },
           {
             iconName: "log-out-outline",
