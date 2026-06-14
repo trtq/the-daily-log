@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SCREENS, TRootStackParamList } from "@/router/types";
 import { AppDispatch, RootState } from "@/store/store";
 import { createEntry, editEntry } from "@/store/slices/entriesSlice";
+import { formatLongDate } from "@/utils/formatTime";
 import { BackButton } from "@/components/BackButton/BackButton";
 import {
   Screen,
@@ -18,16 +19,6 @@ import {
   SaveButton,
   SaveButtonText,
 } from "./layouts";
-
-const formatDate = (timestamp: number) =>
-  new Date(timestamp)
-    .toLocaleDateString("en-US", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    })
-    .toUpperCase();
 
 export const AddEditScreen = ({
   navigation,
@@ -65,7 +56,7 @@ export const AddEditScreen = ({
         <Header>
           <BackButton onPress={() => navigation.goBack()} />
           <DateLine>
-            {formatDate(existing?.createdAt ?? dateRef.current)}
+            {formatLongDate(existing?.createdAt ?? newEntryDate)}
           </DateLine>
         </Header>
         <ThickRule />

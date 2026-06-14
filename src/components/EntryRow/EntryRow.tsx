@@ -8,9 +8,9 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { runOnJS } from "react-native-worklets";
-import { TEntry } from "@/utils/db/types";
-import { formatEntryDate } from "@/utils/formatEntryDate";
+import { scheduleOnRN } from "react-native-worklets";
+import { TEntry } from "@/services/db/types";
+import { formatShortDate } from "@/utils/formatTime";
 import {
   RowClip,
   DeleteZone,
@@ -85,7 +85,7 @@ export const EntryRow = ({
           <Animated.View style={cardStyle}>
             <Pressable onPress={onPress}>
               <RowContent>
-                <RowKicker>{formatEntryDate(entry.createdAt)}</RowKicker>
+                <RowKicker>{formatShortDate(entry.createdAt)}</RowKicker>
                 <RowTitle numberOfLines={2}>
                   {entry.title || "Untitled"}
                 </RowTitle>

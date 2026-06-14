@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SCREENS, TRootStackParamList } from "@/router/types";
-import { supabase } from "@/utils/supabase/client";
+import { supabase } from "@/services/supabase/client";
 import { Logo } from "@/components/Logo/Logo";
 import {
   Screen,
@@ -26,11 +26,9 @@ import {
   NavLinkText,
 } from "@/screens/AuthScreens/layouts";
 import {
-  TField,
-  field,
-  validateEmail,
-  validatePassword,
-  validateConfirm,
+  getEmailError,
+  getPasswordError,
+  getConfirmError,
 } from "@/utils/validation";
 
 export const SignUpScreen = ({
