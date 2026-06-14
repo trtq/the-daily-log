@@ -4,16 +4,16 @@ type TAuthState = {
   isAuthenticated: boolean;
 };
 
+const initialState: TAuthState = { isAuthenticated: false };
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: { isAuthenticated: false } as TAuthState,
+  initialState: { isAuthenticated: false },
   reducers: {
     setAuthenticated: (state) => {
       state.isAuthenticated = true;
     },
-    clearAuth: (state) => {
-      state.isAuthenticated = false;
-    },
+    clearAuth: () => initialState,
   },
 });
 

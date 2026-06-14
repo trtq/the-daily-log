@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { syncEntries } from "@/utils/supabase/sync";
-import { getAllEntries } from "@/utils/db/queries";
+import { syncEntries } from "@/services/supabase/sync";
+import { getAllEntries } from "@/services/db/queries";
 import { setEntries } from "./entriesSlice";
-import type { AppDispatch } from "../store";
 
 type TSyncState = {
   isSyncing: boolean;
@@ -10,28 +9,21 @@ type TSyncState = {
   error: string | null;
 };
 
-export const runSync = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
-  "sync/run",
-  async (_, { dispatch }) => {
-    await syncEntries();
-    dispatch(setEntries(await getAllEntries()));
-  },
-);
+export const runSync = createAsyncThunk("sync/run", async (_, { dispatch }) => {
+  await syncEntries();
+  dispatch(setEntries(await getAllEntries()));
+});
+
+const initialState: TSyncState = {
+  isSyncing: false,
+  lastSynced: null,
+  error: null,
+};
 
 const syncSlice = createSlice({
   name: "sync",
-  initialState: {
-    isSyncing: false,
-    lastSynced: null,
-    error: null,
-  } as TSyncState,
-  reducers: {
-    resetSync: (state) => {
-      state.isSyncing = false;
-      state.lastSynced = null;
-      state.error = null;
-    },
-  },
+  initialState,
+  reducers: { resetSync: () => initialState },
   extraReducers: (builder) => {
     builder
       .addCase(runSync.pending, (state) => {

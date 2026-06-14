@@ -4,7 +4,7 @@ import {
   upsertEntry,
   clearPendingAction,
   hardDeleteEntry,
-} from "@/utils/db/queries";
+} from "@/services/db/queries";
 import {
   fetchRemoteEntries,
   upsertRemoteEntry,
@@ -23,29 +23,32 @@ export const syncEntries = async (): Promise<void> => {
   // --- Pull ---
   const remoteEntries = await fetchRemoteEntries();
 
-  for (const remote of remoteEntries) {
-    const local = await getEntryById(remote.id);
+  for (const remoteEntry of remoteEntries) {
+    const localEntry = await getEntryById(remoteEntry.id);
 
-    if (!local) {
+    if (!localEntry) {
       // Exists on remote but not locally (created on another device)
-      await upsertEntry(remote);
-    } else if (remote.updatedAt > local.updatedAt) {
+      await upsertEntry(remoteEntry);
+    } else if (remoteEntry.updatedAt > localEntry.updatedAt) {
       // Remote is newer — take it; if local had a pendingAction it gets discarded
-      await upsertEntry(remote);
+      await upsertEntry(remoteEntry);
     }
     // local.updatedAt >= remote.updatedAt → local wins; pendingAction (if any) goes to push step
   }
 
   // --- Push ---
-  const pending = await getPendingEntries();
+  const pendingEntries = await getPendingEntries();
 
-  for (const entry of pending) {
-    if (entry.pendingAction === "create" || entry.pendingAction === "update") {
-      await upsertRemoteEntry(entry);
-      await clearPendingAction(entry.id);
-    } else if (entry.pendingAction === "delete") {
-      await markRemoteDeleted(entry.id, entry.deletedAt!);
-      await hardDeleteEntry(entry.id);
+  for (const pendingEntry of pendingEntries) {
+    if (
+      pendingEntry.pendingAction === "create" ||
+      pendingEntry.pendingAction === "update"
+    ) {
+      await upsertRemoteEntry(pendingEntry);
+      await clearPendingAction(pendingEntry.id);
+    } else if (pendingEntry.pendingAction === "delete") {
+      await markRemoteDeleted(pendingEntry.id, pendingEntry.deletedAt!);
+      await hardDeleteEntry(pendingEntry.id);
     }
   }
 };

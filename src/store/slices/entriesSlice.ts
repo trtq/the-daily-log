@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import * as Crypto from "expo-crypto";
-import { TEntry } from "@/utils/db/types";
+import { TEntry } from "@/services/db/types";
 import {
   getAllEntries,
   insertEntry,
@@ -9,8 +9,11 @@ import {
   hardDeleteEntry,
   getEntryById,
   clearPendingAction,
-} from "@/utils/db/queries";
-import { upsertRemoteEntry, markRemoteDeleted } from "@/utils/supabase/entries";
+} from "@/services/db/queries";
+import {
+  upsertRemoteEntry,
+  markRemoteDeleted,
+} from "@/services/supabase/entries";
 
 type TEntriesState = {
   entries: TEntry[];
@@ -36,33 +39,39 @@ export const createEntry = createAsyncThunk(
       pendingAction: "create",
     };
     await insertEntry(entry);
-    let pendingAction: TEntry["pendingAction"] = "create";
     try {
       await upsertRemoteEntry(entry);
       await clearPendingAction(entry.id);
-      pendingAction = null;
+      entry.pendingAction = null;
     } catch {
       // offline or network error — pendingAction stays, full sync will push it
     }
-    return { ...entry, pendingAction };
+    return entry;
   },
 );
 
 export const editEntry = createAsyncThunk(
   "entries/edit",
-  async ({ id, title, body }: { id: string; title: string; body: string }) => {
+  async ({
+    id,
+    title,
+    body,
+    createdAt,
+    deletedAt,
+  }: {
+    id: string;
+    title: string;
+    body: string;
+    createdAt: number;
+    deletedAt: number | null;
+  }) => {
     const updatedAt = Date.now();
     await updateEntryInDb({ id, title, body, updatedAt });
-    // read back to get the full entry (createdAt etc.) and the pendingAction SQLite set
-    const entry = await getEntryById(id);
-    let pendingAction: TEntry["pendingAction"] =
-      entry?.pendingAction ?? "update";
+    let pendingAction: TEntry["pendingAction"] = "update";
     try {
-      if (entry) {
-        await upsertRemoteEntry(entry);
-        await clearPendingAction(id);
-        pendingAction = null;
-      }
+      await upsertRemoteEntry({ id, title, body, createdAt, updatedAt, deletedAt, pendingAction: "update" });
+      await clearPendingAction(id);
+      pendingAction = null;
     } catch {
       // offline — pendingAction stays
     }
@@ -92,14 +101,17 @@ export const deleteEntry = createAsyncThunk(
   },
 );
 
+const initialState: TEntriesState = {
+  entries: [],
+  isLoading: false,
+  error: null,
+};
+
 const entriesSlice = createSlice({
   name: "entries",
-  initialState: { entries: [], isLoading: false, error: null } as TEntriesState,
+  initialState,
   reducers: {
-    clearEntries: (state) => {
-      state.entries = [];
-      state.error = null;
-    },
+    clearEntries: () => initialState,
     setEntries: (state, action: PayloadAction<TEntry[]>) => {
       state.entries = action.payload;
     },
