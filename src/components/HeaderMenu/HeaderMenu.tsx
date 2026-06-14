@@ -17,13 +17,19 @@ export type TMenuOption = {
   danger?: boolean;
 };
 
-type TProps = {
+export const HeaderMenu = ({
+  visible,
+  onClose,
+  options,
+  top,
+  right,
+}: {
   visible: boolean;
   onClose: () => void;
   options: TMenuOption[];
-};
-
-export const HeaderMenu = ({ visible, onClose, options }: TProps) => (
+  top: number;
+  right: number;
+}) => (
   <Modal
     visible={visible}
     transparent
@@ -31,7 +37,7 @@ export const HeaderMenu = ({ visible, onClose, options }: TProps) => (
     onRequestClose={onClose}
   >
     <MenuOverlay onPress={onClose}>
-      <MenuBox>
+      <MenuBox top={top} right={right}>
         {options.map((option, index) => (
           <React.Fragment key={option.label}>
             {index > 0 && <MenuDivider />}
@@ -41,10 +47,7 @@ export const HeaderMenu = ({ visible, onClose, options }: TProps) => (
                 option.onPress();
               }}
             >
-              <MenuIcon
-                name={option.iconName}
-                danger={option.danger}
-              />
+              <MenuIcon name={option.iconName} danger={option.danger} />
               {option.danger ? (
                 <MenuItemLabelDanger>{option.label}</MenuItemLabelDanger>
               ) : (

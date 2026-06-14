@@ -107,6 +107,8 @@ export const MainScreen = ({
       <HeaderMenu
         visible={menuOpen}
         onClose={() => setMenuOpen(false)}
+        top={s(56)}
+        right={s(16)}
         options={[
           {
             iconName: "information-circle-outline",
