@@ -22,13 +22,15 @@ import {
   SWIPE_DELETE_WIDTH,
 } from "./layouts";
 
-type TProps = {
+export const EntryRow = ({
+  entry,
+  onPress,
+  onDelete,
+}: {
   entry: TEntry;
   onPress: () => void;
   onDelete: () => void;
-};
-
-export const EntryRow = ({ entry, onPress, onDelete }: TProps) => {
+}) => {
   const translateX = useSharedValue(0);
   const opacity = useSharedValue(1);
 

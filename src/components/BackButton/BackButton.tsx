@@ -4,11 +4,7 @@ import {
   BackButtonLabel,
 } from "./layouts";
 
-type TProps = {
-  onPress: () => void;
-};
-
-export const BackButton = ({ onPress }: TProps) => (
+export const BackButton = ({ onPress }: { onPress: () => void }) => (
   <BackButtonContainer onPress={onPress}>
     <BackButtonIcon />
     <BackButtonLabel>BACK</BackButtonLabel>
