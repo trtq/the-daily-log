@@ -4,7 +4,7 @@ import { SCREENS, TRootStackParamList } from "@/router/types";
 import { supabase } from "@/services/supabase/client";
 import { Logo } from "@/components/Logo/Logo";
 import {
-  Screen,
+  Container,
   KeyboardContainer,
   CenterWrapper,
   LogoWrapper,
@@ -46,7 +46,7 @@ export const LoginScreen = ({
   };
 
   return (
-    <Screen>
+    <Container>
       <KeyboardContainer>
         <CenterWrapper>
           <LogoWrapper>
@@ -58,14 +58,26 @@ export const LoginScreen = ({
             <Headline>Sign In</Headline>
             <InputGroup>
               <InputLabel>Email</InputLabel>
-              <EmailInput value={email} onChangeText={setEmail} />
+              <EmailInput
+                testID="email-input"
+                value={email}
+                onChangeText={setEmail}
+              />
             </InputGroup>
             <InputGroup>
               <InputLabel>Password</InputLabel>
-              <PasswordInput value={password} onChangeText={setPassword} />
+              <PasswordInput
+                testID="password-input"
+                value={password}
+                onChangeText={setPassword}
+              />
             </InputGroup>
             <AuthError>{authError ?? ""}</AuthError>
-            <SubmitButton onPress={handleSubmit} disabled={loading}>
+            <SubmitButton
+              testID="submit-button"
+              onPress={handleSubmit}
+              disabled={loading || !email || !password}
+            >
               <SubmitButtonText>
                 {loading ? "Signing in…" : "Sign In"}
               </SubmitButtonText>
@@ -79,6 +91,6 @@ export const LoginScreen = ({
           </Section>
         </CenterWrapper>
       </KeyboardContainer>
-    </Screen>
+    </Container>
   );
 };

@@ -83,7 +83,7 @@ export const EntryRow = ({
         <RowRule />
         <GestureDetector gesture={pan}>
           <Animated.View style={cardStyle}>
-            <Pressable onPress={onPress}>
+            <Pressable testID="entry-row-pressable" onPress={onPress}>
               <RowContent>
                 <RowKicker>{formatShortDate(entry.createdAt)}</RowKicker>
                 <RowTitle numberOfLines={2}>

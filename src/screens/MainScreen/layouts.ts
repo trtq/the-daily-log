@@ -5,8 +5,8 @@ import Animated, {
   type FlatListPropsWithLayout,
 } from "react-native-reanimated";
 import styled from "styled-components/native";
-import { vs } from "react-native-size-matters";
-import type { TEntry } from "@/utils/db/types";
+import { s } from "react-native-size-matters";
+import type { TEntry } from "@/services/db/types";
 
 export const Screen = styled(SafeAreaView)`
   flex: 1;
@@ -14,56 +14,59 @@ export const Screen = styled(SafeAreaView)`
 `;
 
 export const Header = styled.View`
-  height: ${vs(42)}px;
+  height: ${s(42)}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-left: ${vs(16)}px;
-  padding-right: ${vs(16)}px;
+  padding-left: ${s(16)}px;
+  padding-right: ${s(16)}px;
 `;
 
 export const SyncStatus = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${vs(10)}px;
+  font-size: ${s(10)}px;
   color: ${(props) => props.theme.ink};
   opacity: 0.4;
+`;
+
+export const SyncError = styled.Text`
+  font-family: LibreBaskerville_400Regular_Italic;
+  font-size: ${s(10)}px;
+  color: ${(props) => props.theme.accentError};
 `;
 
 export const HeaderButtons = styled.View`
   flex-direction: row;
   align-items: center;
-  gap: ${vs(10)}px;
+  gap: ${s(10)}px;
 `;
 
-const CircleButton = styled.TouchableOpacity.attrs(() => ({
+export const CircleButton = styled.TouchableOpacity.attrs(() => ({
   activeOpacity: 0.5,
 }))`
-  width: ${vs(22)}px;
-  height: ${vs(22)}px;
-  border-radius: ${vs(11)}px;
-  border-width: ${vs(2)}px;
+  width: ${s(22)}px;
+  height: ${s(22)}px;
+  border-radius: ${s(11)}px;
+  border-width: ${s(2)}px;
   border-color: ${(props) => props.theme.muted};
   justify-content: center;
   align-items: center;
 `;
 
-export const AddButton = CircleButton;
-export const OptionsButton = CircleButton;
-
 export const AddIcon = styled(Ionicons).attrs((props) => ({
   name: "add",
-  size: vs(16),
+  size: s(16),
   color: props.theme.muted,
 }))`
-  line-height: ${vs(16)}px;
+  line-height: ${s(16)}px;
 `;
 
 export const OptionsIcon = styled(Ionicons).attrs((props) => ({
   name: "ellipsis-horizontal",
-  size: vs(13),
+  size: s(13),
   color: props.theme.muted,
 }))`
-  line-height: ${vs(13)}px;
+  line-height: ${s(13)}px;
 `;
 
 export const EntryList = styled(
@@ -80,7 +83,7 @@ export const EmptyState = styled.View`
 
 export const EmptyStateText = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${vs(13)}px;
+  font-size: ${s(13)}px;
   color: ${(props) => props.theme.ink};
   opacity: 0.4;
 `;

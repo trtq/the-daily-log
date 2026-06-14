@@ -6,8 +6,8 @@ const eslintPluginPrettierRecommended = require("eslint-plugin-prettier/recommen
 module.exports = defineConfig([
   expoConfig,
   eslintPluginPrettierRecommended,
+  { ignores: ["dist/*", "jest.setup.js"] },
   {
-    ignores: ["dist/*"],
     rules: {
       "import/no-named-as-default": 0,
     },

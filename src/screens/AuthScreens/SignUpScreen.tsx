@@ -4,7 +4,7 @@ import { SCREENS, TRootStackParamList } from "@/router/types";
 import { supabase } from "@/services/supabase/client";
 import { Logo } from "@/components/Logo/Logo";
 import {
-  Screen,
+  Container,
   KeyboardContainer,
   CenterWrapper,
   LogoWrapper,
@@ -34,45 +34,43 @@ import {
 export const SignUpScreen = ({
   navigation,
 }: NativeStackScreenProps<TRootStackParamList, SCREENS.SignUp>) => {
-  const [email, setEmail] = useState<TField>(field());
-  const [password, setPassword] = useState<TField>(field());
-  const [confirm, setConfirm] = useState<TField>(field());
+  const [email, setEmail] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  const [password, setPassword] = useState("");
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
+  const [confirm, setConfirm] = useState("");
+  const [confirmTouched, setConfirmTouched] = useState(false);
+
   const [authError, setAuthError] = useState<string | null>(null);
+
   const [loading, setLoading] = useState(false);
 
-  const emailError = email.touched ? validateEmail(email.value) : null;
-  const passwordError = password.touched
-    ? validatePassword(password.value)
-    : null;
-  // re-derives on every render so it clears immediately if passwords start matching
-  const confirmError = confirm.touched
-    ? validateConfirm(confirm.value, password.value)
-    : null;
+  const emailError = emailTouched && getEmailError(email);
+  const passwordError = passwordTouched && getPasswordError(password);
+  const confirmError = confirmTouched && getConfirmError(confirm, password);
 
   const handleSubmit = async () => {
-    setEmail((e) => ({ ...e, touched: true }));
-    setPassword((p) => ({ ...p, touched: true }));
-    setConfirm((c) => ({ ...c, touched: true }));
+    setEmailTouched(true);
+    setPasswordTouched(true);
+    setConfirmTouched(true);
     if (
-      validateEmail(email.value) ||
-      validatePassword(password.value) ||
-      validateConfirm(confirm.value, password.value)
-    )
-      return;
-
-    setLoading(true);
-    setAuthError(null);
-    const { error } = await supabase.auth.signUp({
-      email: email.value,
-      password: password.value,
-    });
-    setLoading(false);
-    if (error) setAuthError(error.message);
-    // success: onAuthStateChange in DbWrapper handles the rest
+      !getEmailError(email) &&
+      !getPasswordError(password) &&
+      !getConfirmError(confirm, password)
+    ) {
+      setLoading(true);
+      setAuthError(null);
+      const { error } = await supabase.auth.signUp({ email, password });
+      setLoading(false);
+      if (error) setAuthError(error.message);
+      // success: onAuthStateChange in DbWrapper handles the rest
+    }
   };
 
   return (
-    <Screen>
+    <Container>
       <KeyboardContainer>
         <CenterWrapper>
           <LogoWrapper>
@@ -85,48 +83,55 @@ export const SignUpScreen = ({
             <InputGroup>
               <InputLabel>Email</InputLabel>
               <EmailInput
-                value={email.value}
-                onChangeText={(v) => setEmail((e) => ({ ...e, value: v }))}
-                onBlur={() => setEmail((e) => ({ ...e, touched: true }))}
+                testID="email-input"
+                value={email}
+                onChangeText={setEmail}
+                onBlur={() => setEmailTouched(true)}
                 hasError={!!emailError}
               />
-              <InputError>{emailError ?? ""}</InputError>
+              <InputError>{emailError || ""}</InputError>
             </InputGroup>
             <InputGroup>
               <InputLabel>Password</InputLabel>
               <PasswordInput
-                value={password.value}
-                onChangeText={(v) => setPassword((p) => ({ ...p, value: v }))}
-                onBlur={() => setPassword((p) => ({ ...p, touched: true }))}
+                testID="password-input"
+                value={password}
+                onChangeText={setPassword}
+                onBlur={() => setPasswordTouched(true)}
                 hasError={!!passwordError}
               />
-              <InputError>{passwordError ?? ""}</InputError>
+              <InputError>{passwordError || ""}</InputError>
             </InputGroup>
             <InputGroup>
               <InputLabel>Confirm Password</InputLabel>
               <PasswordInput
-                value={confirm.value}
-                onChangeText={(v) => setConfirm((c) => ({ ...c, value: v }))}
-                onBlur={() => setConfirm((c) => ({ ...c, touched: true }))}
+                testID="confirm-input"
+                value={confirm}
+                onChangeText={setConfirm}
+                onBlur={() => setConfirmTouched(true)}
                 hasError={!!confirmError}
               />
-              <InputError>{confirmError ?? ""}</InputError>
+              <InputError>{confirmError || ""}</InputError>
             </InputGroup>
             <AuthError>{authError ?? ""}</AuthError>
-            <SubmitButton onPress={handleSubmit} disabled={loading}>
+            <SubmitButton
+              testID="submit-button"
+              onPress={handleSubmit}
+              disabled={loading}
+            >
               <SubmitButtonText>
                 {loading ? "Creating account…" : "Create Account"}
               </SubmitButtonText>
             </SubmitButton>
             <NavRow>
               <NavText>Already have an account?</NavText>
-              <NavLink onPress={() => navigation.goBack()}>
+              <NavLink onPress={navigation.goBack}>
                 <NavLinkText>Sign in</NavLinkText>
               </NavLink>
             </NavRow>
           </Section>
         </CenterWrapper>
       </KeyboardContainer>
-    </Screen>
+    </Container>
   );
 };

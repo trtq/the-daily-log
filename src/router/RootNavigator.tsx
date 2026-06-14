@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useAppSelector } from "@/store/store";
 import { SCREENS, TRootStackParamList } from "./types";
 import { LoginScreen } from "@/screens/AuthScreens/LoginScreen";
 import { SignUpScreen } from "@/screens/AuthScreens/SignUpScreen";
@@ -11,9 +10,7 @@ import { InfoScreen } from "@/screens/InfoScreen/InfoScreen";
 const Stack = createNativeStackNavigator<TRootStackParamList>();
 
 export const RootNavigator = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated,
-  );
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

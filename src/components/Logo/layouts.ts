@@ -1,7 +1,6 @@
 import styled from "styled-components/native";
 import { s } from "react-native-size-matters";
 
-// aspectRatio is owned here — wrappers control width only
 export const LogoOuter = styled.View`
   width: 100%;
   aspect-ratio: 3;

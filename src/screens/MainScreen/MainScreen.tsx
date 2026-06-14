@@ -1,17 +1,17 @@
 import { use, useState } from "react";
 import { Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useDispatch, useSelector } from "react-redux";
 import { LinearTransition } from "react-native-reanimated";
 import { useTheme } from "styled-components/native";
 import { ThemeContext } from "@/components/ThemeWrapper/ThemeWrapper";
 import { SCREENS, TRootStackParamList } from "@/router/types";
-import { AppDispatch, RootState } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { deleteEntry } from "@/store/slices/entriesSlice";
 import { runSync } from "@/store/slices/syncSlice";
-import { supabase } from "@/utils/supabase/client";
-import { getPendingEntries } from "@/utils/db/queries";
-import { formatTimeAgo } from "@/utils/formatTimeAgo";
+import { supabase } from "@/services/supabase/client";
+import { getPendingEntries } from "@/services/db/queries";
+import { s } from "react-native-size-matters";
+import { formatTimeAgo } from "@/utils/formatTime";
 import { EntryRow } from "@/components/EntryRow/EntryRow";
 import { HeaderMenu } from "@/components/HeaderMenu/HeaderMenu";
 import {
@@ -19,9 +19,9 @@ import {
   Header,
   HeaderButtons,
   SyncStatus,
-  AddButton,
+  SyncError,
+  CircleButton,
   AddIcon,
-  OptionsButton,
   OptionsIcon,
   EntryList,
   EmptyState,
@@ -31,11 +31,12 @@ import {
 export const MainScreen = ({
   navigation,
 }: NativeStackScreenProps<TRootStackParamList, SCREENS.Main>) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const entries = useSelector((state: RootState) => state.entries.entries);
-  const isSyncing = useSelector((state: RootState) => state.sync.isSyncing);
-  const lastSynced = useSelector((state: RootState) => state.sync.lastSynced);
-  const toggleTheme = use(ThemeContext);
+  const dispatch = useAppDispatch();
+  const entries = useAppSelector((state) => state.entries.entries);
+  const isSyncing = useAppSelector((state) => state.sync.isSyncing);
+  const lastSynced = useAppSelector((state) => state.sync.lastSynced);
+  const syncError = useAppSelector((state) => state.sync.error);
+  const { changeTheme } = use(ThemeContext);
   const { themeIcon } = useTheme();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -63,20 +64,30 @@ export const MainScreen = ({
   return (
     <Screen>
       <Header>
-        <SyncStatus>
-          {isSyncing
-            ? "syncing…"
-            : lastSynced
-              ? `synced ${formatTimeAgo(lastSynced)}`
-              : ""}
-        </SyncStatus>
+        {syncError ? (
+          <SyncError>sync failed</SyncError>
+        ) : (
+          <SyncStatus>
+            {isSyncing
+              ? "syncing…"
+              : lastSynced
+                ? `synced ${formatTimeAgo(lastSynced)}`
+                : ""}
+          </SyncStatus>
+        )}
         <HeaderButtons>
-          <OptionsButton onPress={() => setMenuOpen(true)}>
+          <CircleButton
+            testID="options-button"
+            onPress={() => setMenuOpen(true)}
+          >
             <OptionsIcon />
-          </OptionsButton>
-          <AddButton onPress={() => navigation.navigate(SCREENS.AddEdit, {})}>
+          </CircleButton>
+          <CircleButton
+            testID="add-button"
+            onPress={() => navigation.navigate(SCREENS.AddEdit)}
+          >
             <AddIcon />
-          </AddButton>
+          </CircleButton>
         </HeaderButtons>
       </Header>
 
@@ -118,7 +129,7 @@ export const MainScreen = ({
           {
             iconName: themeIcon,
             label: themeIcon === "moon-outline" ? "Dark Mode" : "Light Mode",
-            onPress: toggleTheme,
+            onPress: changeTheme,
           },
           {
             iconName: "log-out-outline",

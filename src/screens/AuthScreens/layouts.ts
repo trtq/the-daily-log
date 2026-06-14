@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 import { vs } from "react-native-size-matters";
 
-export const Screen = styled(SafeAreaView)`
+export const Container = styled(SafeAreaView)`
   flex: 1;
   background-color: ${(props) => props.theme.bg};
 `;

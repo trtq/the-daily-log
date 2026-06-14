@@ -23,14 +23,11 @@ import {
   LinkedinIcon,
 } from "./layouts";
 
-const GITHUB_URL = "https://github.com/trtq";
-const LINKEDIN_URL = "https://www.linkedin.com/in/evgeny-ivanitsky/";
-
 export const InfoScreen = ({
   navigation,
 }: NativeStackScreenProps<TRootStackParamList, SCREENS.Info>) => (
   <Screen>
-    <BackButton onPress={() => navigation.goBack()} />
+    <BackButton onPress={navigation.goBack} />
     <ScrollContent>
       <LogoWrapper>
         <Logo />
@@ -76,7 +73,11 @@ export const InfoScreen = ({
 
       <Section>
         <Kicker>Get in Touch</Kicker>
-        <LinkRow onPress={() => Linking.openURL(GITHUB_URL)}>
+        <LinkRow
+          onPress={() =>
+            Linking.openURL("https://github.com/trtq/the-daily-log")
+          }
+        >
           <LinkLeft>
             <GithubIcon />
             <LinkLabel>GitHub</LinkLabel>
@@ -84,7 +85,11 @@ export const InfoScreen = ({
           <LinkSub>@trtq</LinkSub>
         </LinkRow>
         <LinkDivider />
-        <LinkRow onPress={() => Linking.openURL(LINKEDIN_URL)}>
+        <LinkRow
+          onPress={() =>
+            Linking.openURL("https://www.linkedin.com/in/evgeny-ivanitsky")
+          }
+        >
           <LinkLeft>
             <LinkedinIcon />
             <LinkLabel>LinkedIn</LinkLabel>
