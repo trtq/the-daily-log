@@ -3,15 +3,15 @@ import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 import { s } from "react-native-size-matters";
 
+export const SWIPE_DELETE_WIDTH = s(80);
+
 export const RowClip = styled.View`
   overflow: hidden;
 `;
 
-export const SWIPE_DELETE_WIDTH = s(80);
-
 export const DeleteZone = styled(Animated.View)`
   position: absolute;
-  right: 0;
+  right: ${-SWIPE_DELETE_WIDTH}px;
   top: 0;
   bottom: 0;
   width: ${SWIPE_DELETE_WIDTH}px;

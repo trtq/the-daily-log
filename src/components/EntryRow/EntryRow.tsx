@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Pressable } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -34,20 +35,24 @@ export const EntryRow = ({
   const translateX = useSharedValue(0);
   const opacity = useSharedValue(1);
 
-  const pan = Gesture.Pan()
-    .activeOffsetX([-10, 10])
-    .onChange((e) => {
-      translateX.value = Math.min(0, translateX.value + e.changeX);
-    })
-    .onFinalize(() => {
-      if (translateX.value < -SWIPE_DELETE_WIDTH) {
-        opacity.value = withTiming(0, { duration: 200 }, () => {
-          runOnJS(onDelete)();
-        });
-      } else {
-        translateX.value = withSpring(0, { damping: 20, stiffness: 200 });
-      }
-    });
+  const pan = useMemo(
+    () =>
+      Gesture.Pan()
+        .activeOffsetX([-10, 10])
+        .onChange((e) => {
+          translateX.value = Math.min(0, translateX.value + e.changeX);
+        })
+        .onFinalize(() => {
+          if (translateX.value < -SWIPE_DELETE_WIDTH) {
+            opacity.value = withTiming(0, { duration: 200 }, () => {
+              scheduleOnRN(onDelete);
+            });
+          } else {
+            translateX.value = withSpring(0, { damping: 20, stiffness: 200 });
+          }
+        }),
+    [],
+  );
 
   const outerStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -64,6 +69,9 @@ export const EntryRow = ({
       [0, 1],
       "clamp",
     ),
+    transform: [
+      { translateX: Math.max(-SWIPE_DELETE_WIDTH, translateX.value) },
+    ],
   }));
 
   return (
@@ -82,7 +90,9 @@ export const EntryRow = ({
                   {entry.title || "Untitled"}
                 </RowTitle>
                 {!!entry.body && (
-                  <RowExcerpt numberOfLines={2}>{entry.body}</RowExcerpt>
+                  <RowExcerpt testID="row-excerpt" numberOfLines={2}>
+                    {entry.body}
+                  </RowExcerpt>
                 )}
               </RowContent>
             </Pressable>
