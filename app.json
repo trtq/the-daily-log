@@ -12,9 +12,11 @@
       "backgroundColor": "#f4efe6"
     },
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.trtq.thedailylog"
     },
     "android": {
+      "package": "com.trtq.thedailylog",
       "adaptiveIcon": {
         "backgroundColor": "#f4efe6",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -22,6 +24,15 @@
       },
       "predictiveBackGestureEnabled": false
     },
-    "plugins": ["expo-sqlite", "expo-font"]
+    "plugins": [
+      "expo-sqlite",
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "03400ac3-cff0-4f73-aab6-41f46347b241"
+      }
+    },
+    "owner": "eugeneivanitsky"
   }
 }
