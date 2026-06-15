@@ -1,6 +1,5 @@
 import {
   LogoOuter,
-  LogoThinRule,
   LogoThickRule,
   LogoInner,
   LogoText,
@@ -9,7 +8,6 @@ import {
 
 export const Logo = () => (
   <LogoOuter>
-    <LogoThinRule />
     <LogoThickRule />
     <LogoInner>
       <LogoText>THE DAILY LOG</LogoText>
@@ -18,6 +16,5 @@ export const Logo = () => (
       </LogoSubtitle>
     </LogoInner>
     <LogoThickRule />
-    <LogoThinRule />
   </LogoOuter>
 );

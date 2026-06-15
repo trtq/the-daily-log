@@ -7,12 +7,6 @@ export const LogoOuter = styled.View`
   flex-direction: column;
 `;
 
-export const LogoThinRule = styled.View`
-  width: 100%;
-  height: 1px;
-  background-color: ${(props) => props.theme.ink};
-`;
-
 export const LogoThickRule = styled.View`
   width: 100%;
   height: ${s(3)}px;
