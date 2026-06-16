@@ -38,6 +38,8 @@ export const ThickRule = styled.View`
 
 export const TitleInput = styled.TextInput.attrs((props) => ({
   placeholderTextColor: props.theme.placeholder,
+  multiline: true,
+  blurOnSubmit: true,
 }))`
   font-family: PlayfairDisplay_900Black;
   font-size: ${s(26)}px;
