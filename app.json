@@ -13,10 +13,12 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.trtq.thedailylog"
+      "bundleIdentifier": "com.trtq.thedailylog",
+      "buildNumber": "1"
     },
     "android": {
       "package": "com.trtq.thedailylog",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#f4efe6",
         "foregroundImage": "./assets/android-icon-foreground.png",
