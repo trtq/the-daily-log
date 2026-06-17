@@ -6,6 +6,7 @@ The Daily Log is a journaling app by Evgeny Ivanitsky (me) developed with React 
 The app was developed as a showcase — I wanted to make something that covered the full React Native development pipeline end to end. It includes authentication, local SQLite storage, cloud sync, animations, theming, and a full test suite.
 
 ![Main screen and entry editor](https://i.imgur.com/rc216LV.gif)
+
 ## Technologies used
 - [**Expo**](https://expo.dev/) for the development environment and its ecosystem of libraries
 - Written in [TypeScript](https://www.typescriptlang.org/)
@@ -45,23 +46,28 @@ npm start
 
 ## Local storage
 Entries are stored locally with [**expo-sqlite**](https://docs.expo.dev/versions/latest/sdk/sqlite/), which means the app is fully functional without a network connection. All reads and writes go through a typed query layer built on top of the SQLite API.
+
 ![Entry list](https://i.imgur.com/zODp6S7.png)
 
 
 ## Cloud sync
 Authentication and cloud sync are handled by [**Supabase**](https://supabase.com/). When a connection is available, local changes are pushed to a remote Supabase table. The sync state is tracked in Redux and shown in the header. Entries created or edited offline are queued with a pending action flag and synced when the connection is restored.
+
 ![Sync status](https://i.imgur.com/nL8MB9k.gif)
 
 
 ## Themes
 Light and dark themes are realized with [**styled-components**](https://styled-components.com/). By default the app follows the system theme, but the user can also switch manually.
+
 ![Light and dark themes](https://i.imgur.com/GnRy989.png)
 
 
 ## Swipe to delete
 Swipe-to-delete is implemented with [**react-native-reanimated**](https://docs.swmansion.com/react-native-reanimated/) and [**react-native-gesture-handler**](https://docs.swmansion.com/react-native-gesture-handler/).
+
 ![Swipe to delete](https://i.imgur.com/50XP40Z.gif)
 
 
 ## A couple more screenshots
+
 ![Swipe to delete](https://i.imgur.com/DIKKJsC.png)
