@@ -9,7 +9,7 @@ export const Container = styled(SafeAreaView)`
 `;
 
 export const KeyboardContainer = styled(KeyboardAvoidingView).attrs(() => ({
-  behavior: Platform.OS === "ios" ? "padding" : "height",
+  behavior: Platform.OS === "ios" ? "padding" : undefined,
 }))`
   flex: 1;
 `;
@@ -22,7 +22,7 @@ export const CenterWrapper = styled.View`
 export const LogoWrapper = styled.View`
   width: 80%;
   align-self: center;
-  margin-bottom: ${vs(16)}px;
+  margin-bottom: ${vs(18)}px;
 `;
 
 export const ThickRule = styled.View`
@@ -33,36 +33,36 @@ export const ThickRule = styled.View`
 `;
 
 export const Section = styled.View`
-  padding: ${vs(16)}px ${vs(18)}px;
+  padding: ${vs(18)}px ${vs(18)}px;
 `;
 
 export const Kicker = styled.Text`
   font-family: LibreBaskerville_700Bold;
-  font-size: ${vs(7)}px;
-  color: ${(props) => props.theme.ink};
-  letter-spacing: ${vs(2)}px;
-  text-transform: uppercase;
-  margin-bottom: ${vs(4)}px;
-`;
-
-export const Headline = styled.Text`
-  font-family: PlayfairDisplay_900Black;
-  font-size: ${vs(23)}px;
-  color: ${(props) => props.theme.ink};
-  margin-bottom: ${vs(18)}px;
-`;
-
-export const InputGroup = styled.View`
-  margin-bottom: ${vs(6)}px;
-`;
-
-export const InputLabel = styled.Text`
-  font-family: LibreBaskerville_700Bold;
-  font-size: ${vs(7)}px;
+  font-size: ${vs(8)}px;
   color: ${(props) => props.theme.ink};
   letter-spacing: ${vs(2)}px;
   text-transform: uppercase;
   margin-bottom: ${vs(5)}px;
+`;
+
+export const Headline = styled.Text`
+  font-family: PlayfairDisplay_900Black;
+  font-size: ${vs(25)}px;
+  color: ${(props) => props.theme.ink};
+  margin-bottom: ${vs(20)}px;
+`;
+
+export const InputGroup = styled.View`
+  margin-bottom: ${vs(7)}px;
+`;
+
+export const InputLabel = styled.Text`
+  font-family: LibreBaskerville_700Bold;
+  font-size: ${vs(8)}px;
+  color: ${(props) => props.theme.ink};
+  letter-spacing: ${vs(2)}px;
+  text-transform: uppercase;
+  margin-bottom: ${vs(6)}px;
 `;
 
 export const EmailInput = styled.TextInput.attrs((props) => ({
@@ -72,12 +72,12 @@ export const EmailInput = styled.TextInput.attrs((props) => ({
   placeholderTextColor: props.theme.placeholder,
 }))<{ hasError?: boolean }>`
   font-family: LibreBaskerville_400Regular;
-  font-size: ${vs(13)}px;
+  font-size: ${vs(14)}px;
   color: ${(props) => props.theme.ink};
   border-width: 1px;
   border-color: ${({ hasError, theme }) =>
     hasError ? theme.accentError : theme.ink};
-  padding: ${vs(10)}px ${vs(11)}px;
+  padding: ${vs(11)}px ${vs(12)}px;
 `;
 
 export const PasswordInput = styled.TextInput.attrs((props) => ({
@@ -87,19 +87,19 @@ export const PasswordInput = styled.TextInput.attrs((props) => ({
   placeholderTextColor: props.theme.placeholder,
 }))<{ hasError?: boolean }>`
   font-family: LibreBaskerville_400Regular;
-  font-size: ${vs(13)}px;
+  font-size: ${vs(14)}px;
   color: ${(props) => props.theme.ink};
   border-width: 1px;
   border-color: ${({ hasError, theme }) =>
     hasError ? theme.accentError : theme.ink};
-  padding: ${vs(10)}px ${vs(11)}px;
+  padding: ${vs(11)}px ${vs(12)}px;
 `;
 
 export const InputError = styled.Text`
-  height: ${vs(16)}px;
+  height: ${vs(18)}px;
   padding-top: ${vs(2)}px;
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${vs(9)}px;
+  font-size: ${vs(10)}px;
   color: ${(props) => props.theme.accentError};
 `;
 
@@ -110,24 +110,24 @@ export const SubmitButton = styled.TouchableOpacity.attrs<{
 }))<{ disabled?: boolean }>`
   background-color: ${({ disabled, theme }) =>
     disabled ? theme.btnBgDisabled : theme.btnBg};
-  padding: ${vs(13)}px;
+  padding: ${vs(14)}px;
   align-items: center;
-  margin-bottom: ${vs(14)}px;
+  margin-bottom: ${vs(15)}px;
 `;
 
 export const SubmitButtonText = styled.Text`
   font-family: LibreBaskerville_700Bold;
-  font-size: ${vs(10)}px;
+  font-size: ${vs(11)}px;
   color: ${(props) => props.theme.btnText};
   letter-spacing: ${vs(2)}px;
   text-transform: uppercase;
 `;
 
 export const AuthError = styled.Text`
-  height: ${vs(20)}px;
+  height: ${vs(22)}px;
   padding-top: ${vs(3)}px;
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${vs(10)}px;
+  font-size: ${vs(11)}px;
   color: ${(props) => props.theme.accentError};
 `;
 
@@ -135,12 +135,12 @@ export const NavRow = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: ${vs(4)}px;
+  gap: ${vs(5)}px;
 `;
 
 export const NavText = styled.Text`
   font-family: LibreBaskerville_400Regular;
-  font-size: ${vs(10)}px;
+  font-size: ${vs(11)}px;
   color: ${(props) => props.theme.ink};
 `;
 
@@ -150,7 +150,7 @@ export const NavLink = styled.TouchableOpacity.attrs(() => ({
 
 export const NavLinkText = styled.Text`
   font-family: LibreBaskerville_700Bold;
-  font-size: ${vs(10)}px;
+  font-size: ${vs(11)}px;
   color: ${(props) => props.theme.ink};
   text-decoration-line: underline;
 `;

@@ -14,39 +14,39 @@ export const Screen = styled(SafeAreaView)`
 `;
 
 export const Header = styled.View`
-  height: ${s(42)}px;
+  height: ${s(46)}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-left: ${s(16)}px;
-  padding-right: ${s(16)}px;
+  padding-left: ${s(20)}px;
+  padding-right: ${s(18)}px;
 `;
 
 export const SyncStatus = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${s(10)}px;
+  font-size: ${s(11)}px;
   color: ${(props) => props.theme.ink};
   opacity: 0.4;
 `;
 
 export const SyncError = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${s(10)}px;
+  font-size: ${s(11)}px;
   color: ${(props) => props.theme.accentError};
 `;
 
 export const HeaderButtons = styled.View`
   flex-direction: row;
   align-items: center;
-  gap: ${s(10)}px;
+  gap: ${s(11)}px;
 `;
 
 export const CircleButton = styled.TouchableOpacity.attrs(() => ({
   activeOpacity: 0.5,
 }))`
-  width: ${s(22)}px;
-  height: ${s(22)}px;
-  border-radius: ${s(11)}px;
+  width: ${s(24)}px;
+  height: ${s(24)}px;
+  border-radius: ${s(12)}px;
   border-width: ${s(2)}px;
   border-color: ${(props) => props.theme.muted};
   justify-content: center;
@@ -55,18 +55,18 @@ export const CircleButton = styled.TouchableOpacity.attrs(() => ({
 
 export const AddIcon = styled(Ionicons).attrs((props) => ({
   name: "add",
-  size: s(16),
+  size: s(18),
   color: props.theme.muted,
 }))`
-  line-height: ${s(16)}px;
+  line-height: ${s(18)}px;
 `;
 
 export const OptionsIcon = styled(Ionicons).attrs((props) => ({
   name: "ellipsis-horizontal",
-  size: s(13),
+  size: s(14),
   color: props.theme.muted,
 }))`
-  line-height: ${s(13)}px;
+  line-height: ${s(14)}px;
 `;
 
 export const EntryList = styled(
@@ -83,7 +83,7 @@ export const EmptyState = styled.View`
 
 export const EmptyStateText = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${s(13)}px;
+  font-size: ${s(14)}px;
   color: ${(props) => props.theme.ink};
   opacity: 0.4;
 `;

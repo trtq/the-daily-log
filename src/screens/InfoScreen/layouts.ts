@@ -9,15 +9,15 @@ export const Screen = styled(SafeAreaView)`
 `;
 
 export const ScrollContent = styled.ScrollView.attrs(() => ({
-  contentContainerStyle: { paddingBottom: s(32) },
+  contentContainerStyle: { paddingBottom: s(35) },
   showsVerticalScrollIndicator: false,
 }))``;
 
 export const LogoWrapper = styled.View`
   width: 80%;
   align-self: center;
-  margin-top: ${s(12)}px;
-  margin-bottom: ${s(20)}px;
+  margin-top: ${s(13)}px;
+  margin-bottom: ${s(22)}px;
 `;
 
 export const ThickRule = styled.View`
@@ -36,38 +36,38 @@ export const ThinRule = styled.View`
 `;
 
 export const Section = styled.View`
-  padding: ${s(18)}px ${s(20)}px;
+  padding: ${s(20)}px ${s(20)}px;
 `;
 
 export const Kicker = styled.Text`
   font-family: LibreBaskerville_700Bold;
-  font-size: ${s(8)}px;
+  font-size: ${s(9)}px;
   color: ${(props) => props.theme.ink};
   letter-spacing: ${s(2)}px;
   text-transform: uppercase;
-  margin-bottom: ${s(6)}px;
+  margin-bottom: ${s(7)}px;
 `;
 
 export const Headline = styled.Text`
   font-family: PlayfairDisplay_900Black;
-  font-size: ${s(22)}px;
+  font-size: ${s(24)}px;
   color: ${(props) => props.theme.ink};
-  line-height: ${s(30)}px;
-  margin-bottom: ${s(10)}px;
+  line-height: ${s(33)}px;
+  margin-bottom: ${s(11)}px;
 `;
 
 export const BodyText = styled.Text`
   font-family: LibreBaskerville_400Regular;
-  font-size: ${s(12)}px;
+  font-size: ${s(13)}px;
   color: ${(props) => props.theme.ink};
-  line-height: ${s(20)}px;
+  line-height: ${s(22)}px;
 `;
 
 export const ItalicText = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${s(12)}px;
+  font-size: ${s(13)}px;
   color: ${(props) => props.theme.ink};
-  line-height: ${s(20)}px;
+  line-height: ${s(22)}px;
 `;
 
 export const LinkRow = styled.TouchableOpacity.attrs(() => ({
@@ -76,26 +76,26 @@ export const LinkRow = styled.TouchableOpacity.attrs(() => ({
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-top: ${s(12)}px;
-  padding-bottom: ${s(12)}px;
+  padding-top: ${s(13)}px;
+  padding-bottom: ${s(13)}px;
 `;
 
 export const LinkLeft = styled.View`
   flex-direction: row;
   align-items: center;
-  gap: ${s(10)}px;
+  gap: ${s(11)}px;
 `;
 
 export const LinkLabel = styled.Text`
   font-family: LibreBaskerville_700Bold;
-  font-size: ${s(12)}px;
+  font-size: ${s(13)}px;
   color: ${(props) => props.theme.ink};
   letter-spacing: ${s(1)}px;
 `;
 
 export const LinkSub = styled.Text`
   font-family: LibreBaskerville_400Regular;
-  font-size: ${s(10)}px;
+  font-size: ${s(11)}px;
   color: ${(props) => props.theme.ink};
   opacity: 0.55;
 `;
@@ -108,12 +108,12 @@ export const LinkDivider = styled.View`
 
 export const GithubIcon = styled(FontAwesome).attrs((props) => ({
   name: "github",
-  size: s(18),
+  size: s(20),
   color: props.theme.ink,
 }))``;
 
 export const LinkedinIcon = styled(FontAwesome).attrs((props) => ({
   name: "linkedin-square",
-  size: s(18),
+  size: s(20),
   color: props.theme.ink,
 }))``;

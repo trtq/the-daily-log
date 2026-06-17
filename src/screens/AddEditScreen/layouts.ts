@@ -9,7 +9,7 @@ export const Screen = styled(SafeAreaView)`
 `;
 
 export const KeyboardContainer = styled(KeyboardAvoidingView).attrs(() => ({
-  behavior: Platform.OS === "ios" ? "padding" : "height",
+  behavior: Platform.OS === "ios" ? "padding" : undefined,
 }))`
   flex: 1;
 `;
@@ -23,7 +23,7 @@ export const Header = styled.View`
 
 export const DateLine = styled.Text`
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${s(8)}px;
+  font-size: ${s(9)}px;
   color: ${(props) => props.theme.ink};
   letter-spacing: ${s(1)}px;
   opacity: 0.55;
@@ -42,11 +42,11 @@ export const TitleInput = styled.TextInput.attrs((props) => ({
   blurOnSubmit: true,
 }))`
   font-family: PlayfairDisplay_900Black;
-  font-size: ${s(26)}px;
+  font-size: ${s(29)}px;
   color: ${(props) => props.theme.ink};
-  line-height: ${s(38)}px;
-  padding-top: ${s(14)}px;
-  padding-bottom: ${s(10)}px;
+  line-height: ${s(42)}px;
+  padding-top: ${s(15)}px;
+  padding-bottom: ${s(11)}px;
   padding-left: ${s(18)}px;
   padding-right: ${s(18)}px;
 `;
@@ -66,16 +66,16 @@ export const BodyInput = styled.TextInput.attrs((props) => ({
 }))`
   flex: 1;
   font-family: LibreBaskerville_400Regular;
-  font-size: ${s(13)}px;
+  font-size: ${s(14)}px;
   color: ${(props) => props.theme.ink};
-  line-height: ${s(22)}px;
-  padding: ${s(12)}px ${s(18)}px;
+  line-height: ${s(24)}px;
+  padding: ${s(13)}px ${s(18)}px;
 `;
 
 export const BottomBar = styled.View`
   border-top-width: 1px;
   border-top-color: ${(props) => props.theme.ink};
-  padding: ${s(10)}px ${s(18)}px;
+  padding: ${s(11)}px ${s(18)}px;
 `;
 
 export const SaveButton = styled.TouchableOpacity.attrs<{ disabled?: boolean }>(
@@ -85,13 +85,13 @@ export const SaveButton = styled.TouchableOpacity.attrs<{ disabled?: boolean }>(
 )<{ disabled?: boolean }>`
   background-color: ${({ disabled, theme }) =>
     disabled ? theme.btnBgDisabled : theme.btnBg};
-  padding: ${s(13)}px;
+  padding: ${s(14)}px;
   align-items: center;
 `;
 
 export const SaveButtonText = styled.Text`
   font-family: LibreBaskerville_700Bold;
-  font-size: ${s(10)}px;
+  font-size: ${s(11)}px;
   color: ${(props) => props.theme.btnText};
   letter-spacing: ${s(2)}px;
   text-transform: uppercase;

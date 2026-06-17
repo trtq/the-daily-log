@@ -17,8 +17,8 @@ export const LogoInner = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  padding-left: ${s(6)}px;
-  padding-right: ${s(6)}px;
+  padding-left: ${s(7)}px;
+  padding-right: ${s(7)}px;
   gap: ${s(3)}px;
 `;
 
@@ -39,7 +39,7 @@ export const LogoSubtitle = styled.Text.attrs(() => ({
   numberOfLines: 1,
 }))`
   font-family: LibreBaskerville_400Regular_Italic;
-  font-size: ${s(9)}px;
+  font-size: ${s(10)}px;
   color: ${(props) => props.theme.ink};
   letter-spacing: ${s(1.5)}px;
   text-align: center;
