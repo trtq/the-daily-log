@@ -21,6 +21,8 @@ import {
   LinkDivider,
   GithubIcon,
   LinkedinIcon,
+  DeleteAccountButton,
+  DeleteAccountText,
 } from "./layouts";
 
 export const InfoScreen = ({
@@ -97,6 +99,15 @@ export const InfoScreen = ({
           <LinkSub>Eugene Ivanitsky</LinkSub>
         </LinkRow>
       </Section>
+      <DeleteAccountButton
+        onPress={() =>
+          Linking.openURL(
+            "https://trtq.github.io/the-daily-log/account-deletion.html",
+          )
+        }
+      >
+        <DeleteAccountText>Delete account</DeleteAccountText>
+      </DeleteAccountButton>
     </ScrollContent>
   </Screen>
 );

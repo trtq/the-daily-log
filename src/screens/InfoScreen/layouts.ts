@@ -117,3 +117,21 @@ export const LinkedinIcon = styled(FontAwesome).attrs((props) => ({
   size: s(20),
   color: props.theme.ink,
 }))``;
+
+export const DeleteAccountButton = styled.TouchableHighlight.attrs((props) => ({
+  underlayColor: props.theme.accentError,
+}))`
+  margin: ${s(20)}px;
+  padding: ${s(14)}px;
+  align-items: center;
+  border-width: 1px;
+  border-color: ${(props) => props.theme.accentError};
+`;
+
+export const DeleteAccountText = styled.Text`
+  font-family: LibreBaskerville_700Bold;
+  font-size: ${s(11)}px;
+  color: ${(props) => props.theme.ink};
+  letter-spacing: ${s(2)}px;
+  text-transform: uppercase;
+`;
