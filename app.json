@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "the-daily-log",
+    "name": "The Daily Log",
     "slug": "the-daily-log",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -27,10 +27,7 @@
       "predictiveBackGestureEnabled": false,
       "softwareKeyboardLayoutMode": "pan"
     },
-    "plugins": [
-      "expo-sqlite",
-      "expo-font"
-    ],
+    "plugins": ["expo-sqlite", "expo-font"],
     "extra": {
       "eas": {
         "projectId": "03400ac3-cff0-4f73-aab6-41f46347b241"
