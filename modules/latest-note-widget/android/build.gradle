@@ -1,0 +1,18 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'com.trtq.thedailylog.latestnotewidget'
+version = ''
+
+android {
+  namespace "com.trtq.thedailylog.latestnotewidget"
+  defaultConfig {
+    versionCode 1
+    versionName ""
+  }
+  lintOptions {
+    abortOnError false
+  }
+}
