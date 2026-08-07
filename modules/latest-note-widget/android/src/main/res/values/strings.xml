@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="latest_note_widget_description">Your last entry in The Daily Log</string>
+    <string name="latest_note_widget_button_desc">Add note</string>
+    <string name="latest_note_widget_placeholder">Your latest note will be here</string>
+</resources>

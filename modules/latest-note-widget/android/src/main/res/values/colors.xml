@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="latest_note_widget_background">#F4EFE6</color>
+    <color name="latest_note_widget_ink">#1a1008</color>
+    <color name="latest_note_widget_muted">#E68C857E</color>
+</resources>
