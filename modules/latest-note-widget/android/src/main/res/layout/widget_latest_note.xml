@@ -12,6 +12,7 @@
         android:gravity="center_vertical"
         >
         <TextView
+            android:id="@+id/latest_note_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -24,6 +25,7 @@
             />
 
         <ImageButton
+            android:id="@+id/latest_note_add"
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:contentDescription="@string/latest_note_widget_button_desc"
@@ -35,6 +37,7 @@
         android:alpha="0.18"
         android:background="@color/latest_note_widget_ink"/>
     <TextView
+        android:id="@+id/latest_note_body"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -47,6 +50,7 @@
         android:lineHeight="24sp"
         />
     <TextView
+        android:id="@+id/latest_note_placeholder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
