@@ -1,11 +1,20 @@
 import React from "react";
-import { fireEvent, waitFor, renderWithStore } from "@/utils/test-utils";
+import { act, fireEvent, waitFor, renderWithStore } from "@/utils/test-utils";
 import { AddEditScreen } from "./AddEditScreen";
 import { insertEntry } from "@/services/db/queries";
 import type { TEntry } from "@/services/db/types";
 
 jest.mock("expo-crypto", () => ({
   randomUUID: jest.fn(() => "new-entry-id"),
+}));
+
+// usePreventRemove doesn't work in tests - no navigator
+// so we mock the prevented press on the back button
+let pressBack: () => void;
+jest.mock("@react-navigation/native", () => ({
+  usePreventRemove: (_prevent: boolean, callback: () => void) => {
+    pressBack = callback;
+  },
 }));
 
 jest.mock("@/services/db/queries", () => ({
@@ -138,5 +147,38 @@ describe("AddEditScreen", () => {
     const { getByText } = renderScreen();
     fireEvent.press(getByText("BACK"));
     expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
+  });
+
+  describe("unsaved changes guard", () => {
+    test("asks before leaving with unsaved changes", () => {
+      const { getByTestId, getByText } = renderScreen();
+      fireEvent.changeText(getByTestId("title-input"), "unfinished text");
+
+      act(pressBack);
+
+      expect(getByText("Discard changes?")).toBeTruthy();
+      expect(mockNavigation.goBack).not.toHaveBeenCalled();
+    });
+
+    test("leaves when the user discards", () => {
+      const { getByTestId } = renderScreen();
+      fireEvent.changeText(getByTestId("title-input"), "unfinished text");
+
+      act(pressBack);
+      fireEvent.press(getByTestId("confirm-accept"));
+
+      expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
+    });
+
+    test("stays on the screen when the user keeps editing", () => {
+      const { getByTestId, queryByText } = renderScreen();
+      fireEvent.changeText(getByTestId("title-input"), "unfinished text");
+
+      act(pressBack);
+      fireEvent.press(getByTestId("confirm-cancel"));
+
+      expect(queryByText("Discard changes?")).toBeNull();
+      expect(mockNavigation.goBack).not.toHaveBeenCalled();
+    });
   });
 });

@@ -1,5 +1,4 @@
 import React from "react";
-import { Alert } from "react-native";
 import { fireEvent, waitFor, renderWithStore } from "@/utils/test-utils";
 import { MainScreen } from "./MainScreen";
 import { getPendingEntries } from "@/services/db/queries";
@@ -103,23 +102,40 @@ describe("MainScreen", () => {
     });
   });
 
-  test("shows a confirmation alert when there are unsynced entries before logout", async () => {
+  test("shows a confirmation modal when there are unsynced entries before logout", async () => {
     (getPendingEntries as jest.Mock).mockResolvedValue([mockEntry]);
-    const alertSpy = jest
-      .spyOn(Alert, "alert")
-      .mockImplementation(() => undefined);
 
-    const { getByTestId, getByText } = renderScreen();
+    const { getByTestId, getByText, findByText } = renderScreen();
     fireEvent.press(getByTestId("options-button"));
     fireEvent.press(getByText("Log Out"));
 
-    await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledWith(
-        "Unsynced entries",
-        expect.any(String),
-        expect.any(Array),
-      );
-    });
+    expect(await findByText("Unsynced Entries")).toBeTruthy();
+    expect(supabase.auth.signOut).not.toHaveBeenCalled();
+  });
+
+  test("signs out when the unsynced-entries confirmation is accepted", async () => {
+    (getPendingEntries as jest.Mock).mockResolvedValue([mockEntry]);
+
+    const { getByTestId, getByText, findByTestId } = renderScreen();
+    fireEvent.press(getByTestId("options-button"));
+    fireEvent.press(getByText("Log Out"));
+
+    fireEvent.press(await findByTestId("confirm-accept"));
+
+    expect(supabase.auth.signOut).toHaveBeenCalledTimes(1);
+  });
+
+  test("stays signed in when the unsynced-entries confirmation is dismissed", async () => {
+    (getPendingEntries as jest.Mock).mockResolvedValue([mockEntry]);
+
+    const { getByTestId, getByText, findByTestId, queryByText } =
+      renderScreen();
+    fireEvent.press(getByTestId("options-button"));
+    fireEvent.press(getByText("Log Out"));
+
+    fireEvent.press(await findByTestId("confirm-cancel"));
+
+    expect(queryByText("Unsynced Entries")).toBeNull();
     expect(supabase.auth.signOut).not.toHaveBeenCalled();
   });
 });

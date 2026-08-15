@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { usePreventRemove } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { SCREENS, TRootStackParamList } from "@/router/types";
 import { createEntry, editEntry } from "@/store/slices/entriesSlice";
 import { formatLongDate } from "@/utils/formatTime";
 import { BackButton } from "@/components/BackButton/BackButton";
+import { ConfirmModal } from "@/components/ConfirmModal/ConfirmModal";
 import {
   Screen,
   KeyboardContainer,
@@ -36,6 +38,25 @@ export const AddEditScreen = ({
   const [saving, setSaving] = useState(false);
   const [newEntryDate] = useState(() => Date.now());
 
+  const [initial] = useState(() => ({
+    title: existing?.title ?? "",
+    body: existing?.body ?? "",
+  }));
+  const [confirmLeaveModalVisible, setConfirmLeaveModalVisible] =
+    useState(false);
+  const [canLeave, setCanLeave] = useState(false);
+
+  // intercepting the back button
+  const hasUnsavedChanges =
+    (title.trim() !== initial.title.trim() ||
+      body.trim() !== initial.body.trim()) &&
+    !canLeave;
+  usePreventRemove(hasUnsavedChanges, () => setConfirmLeaveModalVisible(true));
+
+  useEffect(() => {
+    if (canLeave) navigation.goBack();
+  }, [canLeave, navigation]);
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -52,7 +73,7 @@ export const AddEditScreen = ({
       } else if (!entryId) {
         await dispatch(createEntry({ title, body })).unwrap();
       }
-      navigation.goBack();
+      setCanLeave(true);
     } catch {
       setSaving(false);
       Alert.alert("Save failed", "Something went wrong. Please try again.");
@@ -92,6 +113,16 @@ export const AddEditScreen = ({
           </SaveButton>
         </BottomBar>
       </KeyboardContainer>
+
+      <ConfirmModal
+        visible={confirmLeaveModalVisible}
+        headline="Discard changes?"
+        message="Changes have not been saved. If you leave without saving you will lose them."
+        cancelLabel="Keep Editing"
+        confirmLabel="Discard"
+        onCancel={() => setConfirmLeaveModalVisible(false)}
+        onConfirm={() => setCanLeave(true)}
+      />
     </Screen>
   );
 };

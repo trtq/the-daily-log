@@ -1,5 +1,4 @@
 import { use, useState } from "react";
-import { Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { LinearTransition } from "react-native-reanimated";
 import { useTheme } from "styled-components/native";
@@ -14,6 +13,7 @@ import { s } from "react-native-size-matters";
 import { formatTimeAgo } from "@/utils/formatTime";
 import { EntryRow } from "@/components/EntryRow/EntryRow";
 import { HeaderMenu } from "@/components/HeaderMenu/HeaderMenu";
+import { ConfirmModal } from "@/components/ConfirmModal/ConfirmModal";
 import {
   Screen,
   Header,
@@ -40,22 +40,12 @@ export const MainScreen = ({
   const { themeIcon } = useTheme();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const handleLogout = async () => {
     const pending = await getPendingEntries();
     if (pending.length > 0) {
-      Alert.alert(
-        "Unsynced entries",
-        "You have entries that haven't synced to the cloud yet. Log out anyway?",
-        [
-          { text: "Cancel", style: "cancel" },
-          {
-            text: "Log Out",
-            style: "destructive",
-            onPress: () => supabase.auth.signOut(),
-          },
-        ],
-      );
+      setLogoutModalOpen(true);
     } else {
       supabase.auth.signOut();
     }
@@ -138,6 +128,19 @@ export const MainScreen = ({
             danger: true,
           },
         ]}
+      />
+
+      <ConfirmModal
+        visible={logoutModalOpen}
+        headline="Unsynced Entries"
+        message="Some entries haven't reached the cloud yet. You will lose them if you log out."
+        cancelLabel="Cancel"
+        confirmLabel="Log Out"
+        onCancel={() => setLogoutModalOpen(false)}
+        onConfirm={() => {
+          setLogoutModalOpen(false);
+          supabase.auth.signOut();
+        }}
       />
     </Screen>
   );
