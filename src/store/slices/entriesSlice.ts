@@ -69,7 +69,15 @@ export const editEntry = createAsyncThunk(
     await updateEntryInDb({ id, title, body, updatedAt });
     let pendingAction: TEntry["pendingAction"] = "update";
     try {
-      await upsertRemoteEntry({ id, title, body, createdAt, updatedAt, deletedAt, pendingAction: "update" });
+      await upsertRemoteEntry({
+        id,
+        title,
+        body,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        pendingAction: "update",
+      });
       await clearPendingAction(id);
       pendingAction = null;
     } catch {

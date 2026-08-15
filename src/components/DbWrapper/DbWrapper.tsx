@@ -7,6 +7,7 @@ import { setAuthenticated, clearAuth } from "@/store/slices/authSlice";
 import { runSync, resetSync } from "@/store/slices/syncSlice";
 import { supabase } from "@/services/supabase/client";
 import { ThemeContext } from "@/components/ThemeWrapper/ThemeWrapper";
+import { startWidgetUpdater } from "@/utils/widgetUpdater";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,10 +19,12 @@ export const DbWrapper = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const unsubscribeWidgetUpdater = startWidgetUpdater();
     initDb()
       .then(() => dispatch(loadEntries()))
       .catch(console.error)
       .finally(() => setDbReady(true));
+    return unsubscribeWidgetUpdater;
   }, [dispatch]);
 
   useEffect(() => {

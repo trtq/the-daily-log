@@ -1,5 +1,4 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
@@ -14,9 +13,7 @@ export default function App() {
         <SafeAreaProvider>
           <ThemeWrapper>
             <DbWrapper>
-              <NavigationContainer>
-                <RootNavigator />
-              </NavigationContainer>
+              <RootNavigator />
             </DbWrapper>
           </ThemeWrapper>
         </SafeAreaProvider>
