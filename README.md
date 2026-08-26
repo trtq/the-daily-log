@@ -18,6 +18,7 @@ The app was developed as a showcase — I wanted to make something that covered 
 - Swipe-to-delete animation with [**react-native-reanimated**](https://docs.swmansion.com/react-native-reanimated/) and [**react-native-gesture-handler**](https://docs.swmansion.com/react-native-gesture-handler/)
 - Adaptive styling with [**styled-components**](https://styled-components.com/) and [**react-native-size-matters**](https://www.npmjs.com/package/react-native-size-matters)
 - Light and dark theming with [**styled-components**](https://styled-components.com/)
+- Native android widget written in Kotlin for [**Expo Modules API**](https://docs.expo.dev/modules/overview/)
 
 
 ## Running locally
@@ -55,6 +56,11 @@ Authentication and cloud sync are handled by [**Supabase**](https://supabase.com
 
 ![Sync status](https://i.imgur.com/nL8MB9k.gif)
 
+## Android widget
+A widget that shows the last written note is available on the android version of the app. It is a native module, written in Kotlin and made for [**Expo Modules API**](https://docs.expo.dev/modules/overview/)
+
+![Android widget](https://i.imgur.com/txm3AWS.png)
+
 
 ## Themes
 Light and dark themes are realized with [**styled-components**](https://styled-components.com/). By default the app follows the system theme, but the user can also switch manually.
@@ -68,6 +74,7 @@ Swipe-to-delete is implemented with [**react-native-reanimated**](https://docs.s
 ![Swipe to delete](https://i.imgur.com/50XP40Z.gif)
 
 
-## A couple more screenshots
+## Try it out
+The android version is currently [available](https://play.google.com/store/apps/details?id=com.trtq.thedailylog) on Google Play
 
 ![Swipe to delete](https://i.imgur.com/DIKKJsC.png)
