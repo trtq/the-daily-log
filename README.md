@@ -1,7 +1,7 @@
 
 ![The Daily Log logo](https://i.imgur.com/zcJZEqj.png)
 # The Daily Log
-The Daily Log is a journaling app by Evgeny Ivanitsky (me) developed with React Native for mobile phones. It has a newspaper-inspired design — entries are stored locally in SQLite and backed by a full Supabase backend with authentication and cloud sync.
+The Daily Log is a journaling app by Eugene Ivanitsky (me) developed with React Native for mobile phones. It has a newspaper-inspired design — entries are stored locally in SQLite and backed by a full Supabase backend with authentication and cloud sync.
 
 The app was developed as a showcase — I wanted to make something that covered the full React Native development pipeline end to end. It includes authentication, local SQLite storage, cloud sync, animations, theming, and a full test suite.
 
